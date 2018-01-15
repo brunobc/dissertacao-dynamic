@@ -1,0 +1,92 @@
+% \chapter{Introdução}
+\chapter{Introdução/Justificativa}
+\label{cap:introducao}
+
+Grandes quantidades de dados estão disponíveis para análise em organizações hoje em dia.
+Estas enfrentam vários desafios quando se tenta analisar dados gerados com o objetivo de
+extrair informações úteis.
+Esta capacidade analítica precisa ser reforçada com ferramentas capazes de lidar com
+grandes conjuntos de dados sem tornar o processo de análise uma tarefa árdua.
+Agrupamento de dados normalmente são usados no processo de análise de dados, pois esta técnica
+não exige qualquer conhecimento prévio dos dados. Contudo, os algoritmos de agrupamento
+geralmente requerem um ou mais parâmetros de entrada que influenciam o processo de
+agrupamento e os resultados que podem ser obtidos. 
+
+Nos últimos anos, o problema de agrupamento dinâmico tem atraído o interesse de pesquisas,
+impulsionado pelo aumento da disponibilidade de grandes conjuntos de dados contendo
+elementos espaciais e temporais. Este problema pode ser analisado como um problema de
+otimização. Seu objetivo principal é maximizar as diferenças das características dos
+indivíduos de grupos distintos, e minimizar as diferenças das características dos
+indivíduos de um mesmo grupo.
+
+
+Agrupamento de dados ganhou uso muito difundido, especialmente para dados estáticos.
+No entanto, o rápido crescimento de dados espaço-temporais de inúmeros instrumentos,
+como os satélites em órbita terrestre, criou uma necessidade de métodos de agrupamento
+espaço-temporais para extrair e monitorar clusters dinâmicos. O agrupamento espaço-temporal
+dinâmico enfrenta dois grandes desafios: primeiro, os clusters são dinâmicos e podem mudar de
+tamanho, forma e propriedades estatísticas ao longo do tempo. Em segundo lugar, vários dados
+espaço-temporais são incompletos, ruidosos, heterogêneos e altamente variáveis sobre espaço e tempo.
+
+Os dados espaço-temporais estão rapidamente se tornando onipresentes graças a sensores e armazenamento acessíveis. Estes dados ricos em informações têm o potencial de revolucionar diversos campos, como as ciências sociais, terrestres e médicas, onde há necessidade de extrair e compreender fenômenos espaço-temporais complexos e suas dinâmicas. Além disso, os dados em tais domínios científicos tendem a ser grandes e não marcados. Isso destaca a importância de métodos não supervisionados no monitoramento de dinâmicas espaço-temporais com pouca ou nenhuma supervisão humana.
+
+Clustering é uma das técnicas de mineração de dados não supervisionadas mais comuns. Tem um enorme sucesso, especialmente para dados estáticos. No entanto, há pouco trabalho na configuração espaço-temporal onde os dados estão na forma de campos espaço-temporais contínuos e os clusters são dinâmicos. Além disso, os dados espaço-temporais originados por satélites em órbita terrestre, telefones celulares e outros sensores tendem a ser ruidosos, incompletos e heterogêneos, tornando sua análise especialmente desafiadora.
+[Faghmous and Kumar, 2013]
+James H Faghmous and Vipin
+Kumar. Spatio-temporal data mining for climate data: Advances, challenges, and opportunities. In W. Chu, editor, Data Mining and Knowledge Discovery for Big Data: Methodologies, Challenges, and Opportunities, pages 83–116. Springer, 2013.
+
+Neste artigo, propomos um novo paradigma de agrupamento espaço-temporal para identificar clusters em um campo espaço-temporal contínuo onde os clusters são dinâmicos e podem mudar seu tamanho, forma, localização e propriedades estatísticas de um único passo para o próximo. O nosso paradigma decorre da observação de que, em inúmeras configurações dinâmicas, embora os agrupamentos possam se mover ou mudar de forma, existem vários pontos que não altere as associações de grupos para um período de tempo significativo.
+Esta observação nos permite extrair de forma autônoma clusters dinâmicos em dados espaço-temporais contínuos que podem conter valores, ruídos ou características muito variáveis.
+
+
+
+
+O problema de agrupamento dinâmico com a componente de previsão divide-se em passos.
+A primeira etapa é obtenção das informações espaço-temporais mapeáveis e características do indivíduo.
+Neste passo, segue-se três estratégias para resolução do problema: os dados são analisados
+como um só grupo (Agrupamento Estático); trata-se os dados por intervalos pré-definidos; e 
+mapeamento das evoluções entre intervalos observados. Sendo assim, pretende-se indicar o conjunto
+de grupos espacialmente correlacionados também no tempo.
+
+Já o problema de previsão de grupos dinâmicos introduz o conceito de indicar os
+possíveis grupos que serão formados no tempo após um conjunto de eventos serem
+observados previamente.
+
+% \section{Motivação}
+% \label{sec:motivacao}
+Esta pesquisa justifica-se por perceber-se a necessidade de ferramentas e estudos 
+relacionando os assuntos abordados: agrupamento, previsão em dados
+dinâmicos espaço-temporais, grafos dinâmicos e sistemas web de forma integrada.
+E também, acelerar técnicas de agrupamento em grafos dinâmicos para tomada de decisão.
+
+A relevância da pesquisa está em permitir uma análise dos dados extraídos 
+para apoio à tomada de decisão, onde concentra-se na avaliação dos resultados sobre bases de dados
+dinâmicas relativas a casos e focos de Dengue.
+A pesquisa toma como base as características de evolução dos casos e focos da doença
+observados entre 2007 e 2016 em Fortaleza.
+Os dados serão tomados a partir de \cite{simda}, onde um estado é definido como o período de uma semana. 
+
+
+% \section{Objetivos}
+\label{sec:objetivos}
+\chapter{Objetivos}
+
+A seguir, são expostos os objetivos desta dissertação, definindo o produto
+final a ser obtido.
+
+\subsection{Objetivo Geral}
+\label{sec:objetivo-geral}
+
+Estudo e aplicação de métodos existentes e proposta de um método para resolver o Problema de Agrupamento
+em Grafos Dinâmicos e previsão de evolução destes agrupamentos.
+
+\subsection{Objetivos Específicos}
+\label{sec:objetivos-especificos}
+
+Para que se alcance o objetivo geral, as seguintes metas foram estabelecidas:
+
+\begin{alineas}
+	\item Utilizar o software Dynagraph como ambiente de suporte à visualização e interação com os resultados dos métodos de agrupamento espaço-temporal utilizados.
+	\item Extração de características de previsão espaço-temporal sobre a evolução dos agrupamentos dinâmicos.
+	\item Avaliação dos resultados sobre bases de dados reais ligadas a evolução de casos de Dengue e focos de Aedes Aegypti, e outras bases dinâmicas.
+\end{alineas}
