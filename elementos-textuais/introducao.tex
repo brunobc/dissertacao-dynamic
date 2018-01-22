@@ -1,7 +1,6 @@
 % \chapter{Introdução}
-\chapter{Introdução/Justificativa}
+\chapter{Introdução}
 \label{cap:introducao}
-
 Grandes quantidades de dados estão disponíveis para análise em organizações hoje em dia.
 Estas enfrentam vários desafios quando se tenta analisar dados gerados com o objetivo de
 extrair informações úteis.
@@ -28,19 +27,6 @@ dinâmico enfrenta dois grandes desafios: primeiro, os clusters são dinâmicos 
 tamanho, forma e propriedades estatísticas ao longo do tempo. Em segundo lugar, vários dados
 espaço-temporais são incompletos, ruidosos, heterogêneos e altamente variáveis sobre espaço e tempo.
 
-Os dados espaço-temporais estão rapidamente se tornando onipresentes graças a sensores e armazenamento acessíveis. Estes dados ricos em informações têm o potencial de revolucionar diversos campos, como as ciências sociais, terrestres e médicas, onde há necessidade de extrair e compreender fenômenos espaço-temporais complexos e suas dinâmicas. Além disso, os dados em tais domínios científicos tendem a ser grandes e não marcados. Isso destaca a importância de métodos não supervisionados no monitoramento de dinâmicas espaço-temporais com pouca ou nenhuma supervisão humana.
-
-Clustering é uma das técnicas de mineração de dados não supervisionadas mais comuns. Tem um enorme sucesso, especialmente para dados estáticos. No entanto, há pouco trabalho na configuração espaço-temporal onde os dados estão na forma de campos espaço-temporais contínuos e os clusters são dinâmicos. Além disso, os dados espaço-temporais originados por satélites em órbita terrestre, telefones celulares e outros sensores tendem a ser ruidosos, incompletos e heterogêneos, tornando sua análise especialmente desafiadora.
-[Faghmous and Kumar, 2013]
-James H Faghmous and Vipin
-Kumar. Spatio-temporal data mining for climate data: Advances, challenges, and opportunities. In W. Chu, editor, Data Mining and Knowledge Discovery for Big Data: Methodologies, Challenges, and Opportunities, pages 83–116. Springer, 2013.
-
-Neste artigo, propomos um novo paradigma de agrupamento espaço-temporal para identificar clusters em um campo espaço-temporal contínuo onde os clusters são dinâmicos e podem mudar seu tamanho, forma, localização e propriedades estatísticas de um único passo para o próximo. O nosso paradigma decorre da observação de que, em inúmeras configurações dinâmicas, embora os agrupamentos possam se mover ou mudar de forma, existem vários pontos que não altere as associações de grupos para um período de tempo significativo.
-Esta observação nos permite extrair de forma autônoma clusters dinâmicos em dados espaço-temporais contínuos que podem conter valores, ruídos ou características muito variáveis.
-
-
-
-
 O problema de agrupamento dinâmico com a componente de previsão divide-se em passos.
 A primeira etapa é obtenção das informações espaço-temporais mapeáveis e características do indivíduo.
 Neste passo, segue-se três estratégias para resolução do problema: os dados são analisados
@@ -52,30 +38,18 @@ Já o problema de previsão de grupos dinâmicos introduz o conceito de indicar 
 possíveis grupos que serão formados no tempo após um conjunto de eventos serem
 observados previamente.
 
-% \section{Motivação}
-% \label{sec:motivacao}
-Esta pesquisa justifica-se por perceber-se a necessidade de ferramentas e estudos 
-relacionando os assuntos abordados: agrupamento, previsão em dados
-dinâmicos espaço-temporais, grafos dinâmicos e sistemas web de forma integrada.
-E também, acelerar técnicas de agrupamento em grafos dinâmicos para tomada de decisão.
-
-A relevância da pesquisa está em permitir uma análise dos dados extraídos 
-para apoio à tomada de decisão, onde concentra-se na avaliação dos resultados sobre bases de dados
-dinâmicas relativas a casos e focos de Dengue.
-A pesquisa toma como base as características de evolução dos casos e focos da doença
-observados entre 2007 e 2016 em Fortaleza.
-Os dados serão tomados a partir de \cite{simda}, onde um estado é definido como o período de uma semana. 
+O algoritmo proposto para previsão de agrupamentos é uma importante contribuição
+deste trabalho, uma vez que poderá ser usado na obtenção de informações, na previsão de movimentação dos grupos e recomendação para o combate a endemias. O serviço proposto se baseia na localização passada dos casos de dengue.
 
 
-% \section{Objetivos}
+%\section{Caracterização do problema}
+
+\section{Objetivos}
 \label{sec:objetivos}
-\chapter{Objetivos}
-
 A seguir, são expostos os objetivos desta dissertação, definindo o produto
 final a ser obtido.
 
 \subsection{Objetivo Geral}
-\label{sec:objetivo-geral}
 
 Estudo e aplicação de métodos existentes e proposta de um método para resolver o Problema de Agrupamento
 em Grafos Dinâmicos e previsão de evolução destes agrupamentos.
@@ -88,5 +62,95 @@ Para que se alcance o objetivo geral, as seguintes metas foram estabelecidas:
 \begin{alineas}
 	\item Utilizar o software Dynagraph como ambiente de suporte à visualização e interação com os resultados dos métodos de agrupamento espaço-temporal utilizados.
 	\item Extração de características de previsão espaço-temporal sobre a evolução dos agrupamentos dinâmicos.
-	\item Avaliação dos resultados sobre bases de dados reais ligadas a evolução de casos de Dengue e focos de Aedes Aegypti, e outras bases dinâmicas.
+	\item Avaliação dos resultados sobre bases de dados reais ligadas a evolução de casos de Dengue e Chikungunya e outras bases dinâmicas.
 \end{alineas}
+
+\section{Hipóteses}
+As hipóteses a seguir conduziram a elaboração desta dissertação:
+\begin{alineas}
+	\item É possível a criação de um algoritmo capaz de sugerir novos agrupamentos geolocalizados baseados no tempo.
+	\item É exequível a integração de um editor de características ao DYNAGRAPH, que é um software extensível.
+	\item É realizável a utilização do modelo proposto de agrupamentos em grafos dinâmicos em um ambiente Web.
+\end{alineas}
+
+\section{Justificativa}
+Esta pesquisa justifica-se por perceber-se a necessidade de ferramentas e estudos 
+relacionando os assuntos abordados: agrupamento, previsão em dados
+dinâmicos espaço-temporais, grafos dinâmicos e sistemas web de forma integrada.
+E também, acelerar técnicas de agrupamento em grafos dinâmicos para tomada de decisão.
+
+A relevância da pesquisa está em permitir uma análise dos dados extraídos 
+para apoio à tomada de decisão, onde concentra-se na avaliação dos resultados sobre bases de dados
+dinâmicas relativas a casos de Dengue.
+A pesquisa toma como base as características de evolução dos casos da doença
+observados entre 2007 e 2016 em Fortaleza.
+Os dados foram tomados a partir de \cite{simda}, onde um estado é definido como o período de uma semana. 
+
+\section{Metodologia}
+A seguir, são descritas as etapas metodológicas para o desenvolvimento da dissertação de acordo com o cronograma.
+
+\subsection{Etapas metodológicas do projeto}
+A presente pesquisa pode ser caracterizada quanto ao procedimento quantitativa
+e comparativa. A pesquisa quantitativa prioriza apontar numericamente a frequência e a
+intensidade dos comportamentos dos indivíduos de um determinado grupo, ou população. O
+método comparativo constitui-se em investigar coisas ou fatos e explicá-los de acordo com
+suas semelhanças e suas diferenças. Possibilita a análise de dados concretos e a dedução de
+semelhanças e divergências de elementos contínuos, abstratos e gerais, facilitando investigações
+de caráter indireto \cite{fachin}.
+
+\subsubsection{Revisão da literatura e soluções existentes}
+As fontes principais de pesquisa foram sites especializados em pesquisas científicas, por exemplo, o portal de periódicos
+da CAPES, IEEE e outros sites de referências em que possuem livros, periódicos e dissertações disponíveis.
+Os temas essenciais abordados na pesquisa foram:
+\begin{itemize}
+	\item Estrutura de dados em grafos dinâmicos
+	\item Modelos de previsão espaço-temporais
+	\item Algoritmos de agrupamentos dinâmicos
+\end{itemize}
+\subsubsection{Análise de requisitos}
+Detectou-se as necessidades de informações baseadas na previsão de agrupamentos dinâmicos
+em grafos. Assim sendo, e após obter os dados a partir de \cite{simda}, houve a necessidade de um software para
+representação e tratamentos de grafos dinâmicos. Com isso foi escolhido o DYNAGRAPH, que tem como 
+característica a extensibilidade.
+
+\subsubsection{Arquitetura do software}
+A arquitetura do software desenvolvido é apresentada, assim como o diagrama de caso de uso (UML).
+
+\subsubsection{Modelo e desenvolvimento de software}
+Foi desenvolvido um modelo capaz de representar agrupamentos e previsão dinâmicos.
+Em seguida, foi desenvolvido a partir do software DYNAGRAPH executar o modelo
+proposto e apresentar os resultados para validar a aplicação da ferramenta.
+
+\subsubsection{Ferramentas e Materiais}
+O desenvolvimento do trabalho foi realizado a partir dos seguintes equipamentos e materiais:
+\begin{itemize}
+	\item Macbook Pro 13" modelo 2015 / macOS High Sierra 10.13.2:
+	\subitem Processador Intel Core i5 2.7 GHz;
+	\subitem Memória de 8GB 1867 MHzs DDR3;
+	\subitem HD SSD 128GB;
+	\item Ambiente de desenvolvimento Webstorm;
+	\item Navegador de internet Google Chrome 63.0.3239.132.
+	\item Controle de versão Git (Software e dissertação);
+	\item \LaTeX para produção da dissertação;
+	\item Portal de periódicos CAPES;
+\end{itemize}
+
+
+\section{Organização do Texto}
+Esta dissertação está organizada em 5 capítulos. O capítulo 1 apresenta uma
+introdução à necessidade da representação e manipulação do agrupamento espaço-temporal
+dinâmico, assim como a previsão da formação de novos grupos dinâmicos.Em seguida são apresentados os objetivos,
+hipóteses, a metodologia utilizada e contribuições. O capítulo 2 apresenta a revisão
+bibliográfica em modelagem com grafos dinâmicos, métodos de agrupamento por densidade, redes dinâmicas,
+o DYNAGRAPH, um editor de características e um conjunto de trabalhos relacionados a esta área do conhecimento.
+O capítulo 3 apresenta o modelo de agrupamento e previsão em redes dinâmicas. O capítulo 4 apresenta
+os resultados e comparação dos algoritmos apresentados. O capítulo 5 apresenta as considerações finais
+e propostas de trabalhos futuros.
+
+
+
+
+
+
+
+

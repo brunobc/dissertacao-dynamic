@@ -1,6 +1,25 @@
 % \chapter{Estado da Arte}
-\chapter{Referencial Teórico}
+\chapter{Conceitos e revisão bibliográfica}
 \label{cap:estadodaarte}
+
+\section{Agrupamentos}
+Os dados espaço-temporais estão rapidamente se tornando onipresentes graças a sensores e armazenamento acessíveis. Estes dados ricos em informações têm o potencial de revolucionar diversos campos, como as ciências sociais, terrestres e médicas, onde há necessidade de extrair e compreender fenômenos espaço-temporais complexos e suas dinâmicas. Além disso, os dados em tais domínios científicos tendem a ser grandes e não marcados. Isso destaca a importância de métodos não supervisionados no monitoramento de dinâmicas espaço-temporais com pouca ou nenhuma supervisão humana.
+
+Clustering é uma das técnicas de mineração de dados não supervisionadas mais comuns. Tem um enorme sucesso, especialmente para dados estáticos. No entanto, há pouco trabalho na configuração espaço-temporal onde os dados estão na forma de campos espaço-temporais contínuos e os clusters são dinâmicos. Além disso, os dados espaço-temporais originados por satélites em órbita terrestre, telefones celulares e outros sensores tendem a ser ruidosos, incompletos e heterogêneos, tornando sua análise especialmente desafiadora.
+[Faghmous and Kumar, 2013]
+James H Faghmous and Vipin
+Kumar. Spatio-temporal data mining for climate data: Advances, challenges, and opportunities. In W. Chu, editor, Data Mining and Knowledge Discovery for Big Data: Methodologies, Challenges, and Opportunities, pages 83–116. Springer, 2013.
+
+Neste artigo, propomos um novo paradigma de agrupamento espaço-temporal para identificar clusters em um campo espaço-temporal contínuo onde os clusters são dinâmicos e podem mudar seu tamanho, forma, localização e propriedades estatísticas de um único passo para o próximo. O nosso paradigma decorre da observação de que, em inúmeras configurações dinâmicas, embora os agrupamentos possam se mover ou mudar de forma, existem vários pontos que não altere as associações de grupos para um período de tempo significativo.
+Esta observação nos permite extrair de forma autônoma clusters dinâmicos em dados espaço-temporais contínuos que podem conter valores, ruídos ou características muito variáveis.
+
+\section{Agrupamento por densidade}
+\subsection{Método DBSCAN}
+\subsection{Método ST-DBSCAN}
+\section{Redes dinâmicas}
+\subsection{O modelo Dynagraph}
+\subsection{Editor de características}
+\section{Trabalhos Relacionados}
 
 Como há uma carência de estudos relacionando os assuntos abordados: agrupamento,
 previsão em dados dinâmicos espaço-temporais, grafos dinâmicos e sistemas web
@@ -46,11 +65,11 @@ como identificar subgrafos que são persistidos em redes temporais.
 \cite{lahiri2008} em seguida propõe um novo problema de mineração de dados para redes dinâmicas:
 detecção de todos os padrões de interação que ocorrem em intervalos de tempo regulares.
 
-\cite{alfredo} propôs um algoritmo baseado no método IGN (Identificador
-de Grupos Naturais) de \cite{simposioNeg}, onde este apresenta bons resultados tanto para distâncias 
-euclidianas quanto para outras distâncias; é sensível à presença de \textit{outliers} em situações muito específicas;
-e o número de grupos naturais e sua composição é obtida automaticamente no processo.
-A pesquisa seguirá este método para verificar o processo de construção de agrupamentos dinâmicos.
+% \cite{alfredo} propôs um algoritmo baseado no método IGN (Identificador
+% de Grupos Naturais) de \cite{simposioNeg}, onde este apresenta bons resultados tanto para distâncias 
+% euclidianas quanto para outras distâncias; é sensível à presença de \textit{outliers} em situações muito específicas;
+% e o número de grupos naturais e sua composição é obtida automaticamente no processo.
+% A pesquisa seguirá este método para verificar o processo de construção de agrupamentos dinâmicos.
 
 
 
