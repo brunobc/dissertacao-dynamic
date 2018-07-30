@@ -19,7 +19,6 @@
 *.log
 *.gz
 *.db
-documento.pdf
 *.backup
 *~
 *.syi
