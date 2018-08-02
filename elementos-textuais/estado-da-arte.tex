@@ -11,11 +11,27 @@ Clustering é uma das técnicas de mineração de dados não supervisionadas mai
 James H Faghmous and Vipin
 Kumar. Spatio-temporal data mining for climate data: Advances, challenges, and opportunities. In W. Chu, editor, Data Mining and Knowledge Discovery for Big Data: Methodologies, Challenges, and Opportunities, pages 83–116. Springer, 2013.
 
-Neste artigo, propomos um novo paradigma de agrupamento espaço-temporal para identificar clusters em um campo espaço-temporal contínuo onde os clusters são dinâmicos e podem mudar seu tamanho, forma, localização e propriedades estatísticas de um único passo para o próximo. O nosso paradigma decorre da observação de que, em inúmeras configurações dinâmicas, embora os agrupamentos possam se mover ou mudar de forma, existem vários pontos que não altere as associações de grupos para um período de tempo significativo.
+TODO melhorar texto
+A técnica de agrupamento espacial, também chamada como clustering, é muito útil na
+área de mineração de dados e é usada para descobrir padrões de distribuição nos dados. O
+agrupamento é feito com base na similaridade das características e na posição dos objetos.
+Dessa maneira, o objetivo é que objetos de mesmo agrupamento sejam muito similares entre
+si e muito diferentes dos objetos de outros agrupamentos (JIN; MIAO, 2010) (KIM et al, 2014).
+
+Neste trabalho, propomos um novo paradigma de agrupamento espaço-temporal para identificar clusters em um campo espaço-temporal contínuo onde os clusters são dinâmicos e podem mudar seu tamanho, forma, localização e propriedades estatísticas de um único passo para o próximo. O nosso paradigma decorre da observação de que, em inúmeras configurações dinâmicas, embora os agrupamentos possam se mover ou mudar de forma, existem vários pontos que não altere as associações de grupos para um período de tempo significativo.
 Esta observação nos permite extrair de forma autônoma clusters dinâmicos em dados espaço-temporais contínuos que podem conter valores, ruídos ou características muito variáveis.
 
+//OK
+Os agrupamentos baseados em densidade analisam a quantidade de elementos dentro
+de uma vizinhança de acordo com determinados parâmetros. 
+ A possibilidade de encontrar clusters de forma arbitrárias e o fato de não precisar da definição do número de clustes \cite{yip2005} como parâmetro inicial são as principais vantagens dos métodos baseados em densidade. Entretanto, alguns algoritmos podem exigir a definição de outros parâmetros, como o caso do algoritmo DBSCAN \cite{density-based-clusters} abordado na próxima seção.
+
 \section{Agrupamento por densidade}
+TODO Spatio-temporal clustering methods
+
 \subsection{Método DBSCAN}
+TODO DBSCAN KDD96-037
+TODO O metodo dbscan https://www.maxwell.vrac.puc-rio.br/24787/24787_6.PDF
 \subsection{Método ST-DBSCAN}
 \section{Redes dinâmicas}
 \subsection{O modelo Dynagraph}
