@@ -6,21 +6,70 @@
 
 A técnica de agrupamento, também chamada de clustering, é uma das técnicas de mineração de dados mais comuns e é usada para descobrir padrões de distribuição nos dados. O agrupamento é feito com base na similaridade das características e na posição dos objetos. Dessa maneira, o objetivo é que objetos de mesmo grupo sejam muito similares entre si e muito diferentes dos objetos de outros grupos.
 
-Essa técnica é muito utilizada para dados estáticos. No entanto, há pouco trabalho no âmbito espaço-temporal onde os dados estão na forma de campos espaço-temporais contínuos e os agrupamentos são dinâmicos. Além disso, os dados espaço-temporais originados por satélites em órbita terrestre, telefones celulares e outros sensores tendem a ser ruidosos, incompletos e heterogêneos, tornando sua análise especialmente desafiadora. [Faghmous and Kumar, 2013]
+Essa técnica é muito utilizada para dados estáticos. No entanto, há pouco trabalho no âmbito espaço-temporal onde os dados estão na forma de campos espaço-temporais contínuos e os agrupamentos são dinâmicos. Além disso, os dados espaço-temporais originados por satélites em órbita terrestre, telefones celulares e outros sensores tendem a ser ruidosos, incompletos e heterogêneos, tornando sua análise especialmente desafiadora \cite{faghmous2013}.
 
-Neste trabalho, propomos um novo paradigma de agrupamento espaço-temporal para identificar grupos em um campo espaço-temporal contínuo onde os agrupamentos são dinâmicos e podem mudar seu tamanho, forma, localização e propriedades estatísticas de um único passo para o próximo. O nosso paradigma decorre da observação de que, em inúmeras configurações dinâmicas, embora os agrupamentos possam se mover ou mudar de forma, existem vários pontos que não altere as associações de grupos para um período de tempo significativo.
-Esta observação nos permite extrair de forma autônoma agrupamentos dinâmicos em dados espaço-temporais contínuos que podem conter valores, ruídos ou características muito variáveis.
-
-Os agrupamentos baseados em densidade analisam a quantidade de elementos dentro de uma vizinhança de acordo com determinados parâmetros. 
- A possibilidade de encontrar agrupamentos de forma eventual e o fato de não precisar da definição do número de agrupamentos \cite{yip2005} como parâmetro inicial são as principais vantagens dos métodos baseados em densidade. Entretanto, alguns algoritmos podem exigir a definição de outros parâmetros, como o caso do algoritmo DBSCAN \cite{density-based-clusters} abordado na próxima seção.
+Agrupamentos dinâmicos podem mudar seu tamanho, forma, localização e propriedades estatísticas de um único passo para o próximo. Embora os agrupamentos possam se mover ou mudar de forma, existem vários pontos que não alteram as associações de grupos por um período de tempo. Tendo isso em vista é possível extrair de forma autônoma agrupamentos dinâmicos em dados espaço-temporais contínuos que podem conter valores, ruídos ou características muito variáveis.
 
 \section{Agrupamento por densidade}
-TODO Spatio-temporal clustering methods
+% TODO Spatio-temporal clustering methods
+
+Os agrupamentos baseados em densidade analisam a quantidade de elementos dentro de uma vizinhança de acordo com determinados parâmetros. A idéia-chave é que, para cada instância de um cluster, a vizinhança de um determinado raio deve conter pelo menos um número mínimo de instâncias.
+A possibilidade de encontrar agrupamentos de forma eventual e o fato de não precisar da definição do número de agrupamentos \cite{yip2005} como parâmetro inicial são as principais vantagens dos métodos baseados em densidade. Entretanto, alguns algoritmos podem exigir a definição de outros parâmetros, como o caso do algoritmo DBSCAN \cite{density-based-clusters} abordado na próxima seção.
 
 \subsection{Método DBSCAN}
-TODO DBSCAN KDD96-037
-TODO O metodo dbscan https://www.maxwell.vrac.puc-rio.br/24787/24787_6.PDF
+% TODO DBSCAN KDD96-037
+% TODO O metodo dbscan https://www.maxwell.vrac.puc-rio.br/24787/24787_6.PDF
+
+Este algoritmo calcula a densidade de uma região contando quantos pontos existem em uma determinada área seguindo uma determinada métrica, geralmente uma medida de distância, como a euclidiana ou manhattan. O método DBSCAN separa os pontos de dados em três classes:
+• Pontos principais. Estes são pontos que estão no interior de um cluster. Um ponto é um ponto interior se houver pontos suficientes em sua vizinhança.
+• Pontos de fronteira. Um ponto de fronteira é um ponto que não é um ponto central, ou seja, não há pontos suficientes em sua vizinhança, mas ele está dentro da vizinhança de um ponto central.
+• Pontos de ruído. Um ponto de ruído é qualquer ponto que não é um ponto central ou um ponto de fronteira.
+
+Para encontrar um cluster, o DBSCAN começa com uma instância arbitrária (p) no conjunto de dados (D) e recupera todas as instâncias de D em relação a Eps e MinPts
+Density-Based Algorithms for Discovering Clusters in Large Spatial Databases with Noise (DBSCAN)
+DBSCAN [1] é um algoritmo baseado em densidade que descobre clusters com forma arbitrária e com um número mínimo de parâmetros de entrada. Os parâmetros de entrada necessários para este algoritmo são o raio do cluster (Eps) e os pontos mínimos necessários dentro do cluster (Minpts).
+
+Para agrupar os pontos levando em conta o fator tempo é necessário uma alteração no algoritmo DBScan, e com isso detectar os grupos em relação ao tempo. Logo, o algoritmo determinada para esta implementação foi o ST-DBScan \cite{Birant2007STDBSCANAA}, abordado a seguir.
+
+2.2. Descrição do Algoritmo
+Nesta seção, o algoritmo DBSCAN [7] Clustering espacial baseado em densidade de aplicativos com ruído é projetado para descobrir os clusters de dados espaciais com ruído. As etapas envolvidas neste algoritmo são as seguintes,
+…
+(i) Selecione um ponto arbitrário p
+(ii) Recuperar todos os pontos de densidade-reachable de p w.r.t. Eps e Minpts.
+(iii) Se p é um ponto central, um cluster é formado.
+(iv) Se p é um ponto de borda, nenhum ponto é densidade acessível de p e DBSCAN visita o próximo ponto do banco de dados.
+(v) Continue o processo até que todos os pontos tenham sido processados.
+
+2.3 Impacto do Algoritmo
+DBSCAN requer dois parâmetros de entrada (pontos mínimos e raio) e suporta o usuário ao encontrar um valor aproximado para ele usando o gráfico k-dist [7]. Ele descobre grupos de forma arbitrária. Ele é válido para grandes bancos de dados espaciais.
+…
+
+2.4 Trabalho futuro
+O algoritmo DBSCAN aqui considera [1] apenas objetos de ponto, mas pode ser estendido para outros objetos espaciais, como polígonos. As aplicações do DBSCAN para espaços de recursos de alta dimensão devem ser investigadas e a geração de raio para esses dados de alta dimensão também precisa ser explorada. Também não consegue detectar agrupamentos com densidade variada.
+
+
 \subsection{Método ST-DBSCAN}
+% Spatial- Temporal Density Based Clustering (ST-DBSCAN)
+
+6.1. Introdução
+
+O algoritmo ST-DBSCAN é construído modificando o algoritmo DBSCAN [7]. Em contraste com o algoritmo de agrupamento baseado em densidade existente, o algoritmo ST-DBSCAN [12] tem a capacidade de descobrir clusters em relação aos valores não espaciais, espaciais e temporais dos objetos. As três modificações feitas no algoritmo DBSCAN são as seguintes,
+
+(i) O algoritmo ST-DBSCAN pode agrupar dados espaciais-temporais de acordo com atributos não espaciais, espaciais e temporais.
+(ii) DBSCAN não detecta pontos de ruído quando é de densidade variada, mas isso o algoritmo supera esse problema ao atribuir o fator de densidade a cada cluster.
+(iii) Para resolver os conflitos em objetos de borda, ele compara o valor médio de um cluster com o novo valor que vem.
+
+6.2. Descrição do Algoritmo
+O algoritmo começa com o primeiro ponto p no banco de dados D.
+(i) Este ponto p é processado de acordo com o algoritmo DBSCAN e o próximo ponto é tomado.
+(ii) A função RetrieveNeighbors (objeto, Ep1, Ep2) recupera todos os objetos densidade-acessível do objeto selecionado em relação a Eps1, Eps2 e Minpts. Se os pontos devolvidos no Eps-neighborhood são menores do que Minpts, o objeto é atribuído como ruído.
+(iii) Os pontos marcados como ruído podem ser alterados posteriormente, e os pontos não são diretamente acessíveis, mas serão densidade-acessível.
+…
+(iv) Se o ponto selecionado for um objeto central, um novo cluster será construído. Então, todos os vizinhos de densidade direta de este núcleo de objetos também estão incluídos.
+(v) Então, o algoritmo coleta de forma iterativa objetos atingidos pela densidade do objeto do núcleo usando a pilha.
+(vi) Se o objeto não estiver marcado como ruído ou não estiver em um cluster e a diferença
+entre o valor médio do cluster e o novo valor é menor do que DeltaE, ele é colocado no cluster atual.
+
 \section{Redes dinâmicas}
 \subsection{O modelo Dynagraph}
 \subsection{Editor de características}
