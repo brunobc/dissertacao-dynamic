@@ -10,6 +10,70 @@ Essa técnica é muito utilizada para dados estáticos. No entanto, há pouco tr
 
 Agrupamentos dinâmicos podem mudar seu tamanho, forma, localização e propriedades estatísticas de um único passo para o próximo. Embora os agrupamentos possam se mover ou mudar de forma, existem vários pontos que não alteram as associações de grupos por um período de tempo. Tendo isso em vista é possível extrair de forma autônoma agrupamentos dinâmicos em dados espaço-temporais contínuos que podem conter valores, ruídos ou características muito variáveis.
 
+
+
+
+
+3.2 CLUSTERING
+A cluster is a set of similar objects, where similarity is deined by some distance measure. Any of the distance measures discussed in the previous chapter can be used for the computation of similarity in clustering. he clustering problem is a challenging one because
+Um cluster é um conjunto de objetos similares, onde a similaridade é definida por alguma medida de distância. Qualquer uma das medidas de distância discutidas no capítulo anterior pode ser usada para o cálculo da similaridade no agrupamento. ele problema de clustering é um desafio porque
+
+1. he attributes, also called features, and their values that diferentiate one cluster from another are not known.
+1. ele atribui, também chamado de features, e seus valores que diferenciam um cluster de outro não são conhecidos.
+
+2. here are no labeled data, as is the case in the classiication. In other words, we do not have data to tell us what features diferentiate objects that belong to diferent clusters. he only thing that might be of use in coarsely deining the clusters is some a priori knowledge provided by a domain expert. his lack of guidance in forming the clusters has led to giving the name unsupervised learning to clustering in the ield of machine learning.
+2. aqui não há dados rotulados, como é o caso da classificação. Em outras palavras, não temos dados para nos dizer quais recursos diferenciam objetos que pertencem a clusters diferentes. A única coisa que pode ser útil na demarcação grosseira dos clusters é um conhecimento a priori fornecido por um especialista em domínio. sua falta de orientação na formação dos clusters levou a dar o nome de aprendizado não supervisionado ao agrupamento no campo do aprendizado de máquina.
+
+3. As the number of data increases, the number of clusters as well as the number and type of diferentiating factors might change.
+3. À medida que o número de dados aumenta, o número de clusters, bem como o número e o tipo de fatores diferenciais, pode mudar.
+
+4. Because there is no guide as to what constitutes a cluster, the success of the clustering algorithms is inluenced by the presence of noise in the data, missing data, and outliers. he last refers to data with unusual feature values. In addition, most clustering algorithms are sensitive to the number of features and are most successful in clustering data with a small number of features.
+4. Como não há um guia sobre o que constitui um cluster, o sucesso dos algoritmos de clustering é influenciado pela presença de ruído nos dados, dados ausentes e outliers. ele refere-se por último aos dados com valores de características incomuns. Além disso, a maioria dos algoritmos de agrupamento é sensível ao número de recursos e é mais bem-sucedida nos dados de agrupamento com um pequeno número de recursos.
+
+As discussed in the previous section, the algorithms that will be discussed in this section have been developed for nontemporal data, but as the examples will demonstrate, they can easily be extended to temporal data.
+Como discutido na seção anterior, os algoritmos que serão discutidos nesta seção foram desenvolvidos para dados não-temporais, mas, como os exemplos demonstrarão, eles podem ser facilmente estendidos para dados temporais.
+
+3.2.1 Clustering via Partitioning
+he main idea in this class of clustering algorithms is to create K clusters of the data, where the number K is entered by the user. hese algorithms are suitable mainly for numerical data. he original clustering, also known as partitioning, is performed randomly and then objects are moved in and out of clusters, using as guide a criterion of “closeness.” Partitioning algorithms are very popular because of their ease of implementation and low computational cost; however, they have these disadvantages: (1) they are sensitive to the presence of noise and outliers, (2) they can discover only clusters with convex shapes, and (3) the number of clusters needs to be speciied.
+3.2.1 Clustering via particionamento
+A idéia principal desta classe de algoritmos de clusterização é criar clusters K dos dados, onde o número K é inserido pelo usuário. Esses algoritmos são adequados principalmente para dados numéricos. O agrupamento original, também conhecido como particionamento, é executado aleatoriamente e depois os objetos são movidos para dentro e fora dos clusters, usando como guia um critério de “proximidade”. Os algoritmos de particionamento são muito populares devido à sua facilidade de implementação e baixo custo computacional; no entanto, eles têm essas desvantagens: (1) eles são sensíveis à presença de ruído e outliers, (2) eles podem descobrir apenas clusters com formas convexas e (3) o número de clusters precisa ser especificado.
+
+3.2.2 Hierarchical Clustering
+As the name implies, in this class of algorithms the objects are placed in a hierarchy which is traversed in either a bottom-up or top-down fashion to create the clusters. he advantage of this type of clustering is that it does not require any knowledge about the number of clusters, and its disadvantage is its computational complexity [Lin04]. Quite oten a tree-like structure, a dendrogram, is used to represented the nested hierarchy levels. Most agglomerative hierarchical algorithms follow a bottom-up approach and start with each object forming its own category. hen we merge these clusters into progressively larger clusters until a prespeciied criterion is met, such as the number of clusters to be formed. here are three diferent variations of the algorithm, based on how clusters are merged:
+3.2.2 Clustering Hierárquico
+Como o nome indica, nesta classe de algoritmos os objetos são colocados em uma hierarquia que é percorrida de uma forma bottom-up ou top-down para criar os clusters. A vantagem deste tipo de clustering é que ele não requer nenhum conhecimento sobre o número de clusters, e sua desvantagem é sua complexidade computacional [Lin04]. Em geral, uma estrutura semelhante a árvore, um dendrograma, é usada para representar os níveis da hierarquia aninhada. A maioria dos algoritmos hierárquicos aglomerativos segue uma abordagem bottom-up e começa com cada objeto formando sua própria categoria. uando mesclamos esses clusters em clusters progressivamente maiores até que um critério pré-definido seja atendido, como o número de clusters a serem formados. Aqui estão três variações diferentes do algoritmo, com base em como os clusters são mesclados:
+
+Single link: In this approach, two clusters are merged if the minimum distance between two objects, one from each cluster, is less than or equal a prespeciied threshold distance. An example is shown in Figure 3.7.
+Link único: Nesta abordagem, dois clusters são mesclados se a distância mínima entre dois objetos, um de cada cluster, for menor ou igual a uma distância limite pré-especificada. Um exemplo é mostrado na Figura 3.7.
+
+Average link: Here, two clusters are merged if the average distance between objects in the two clusters is less than a prespeciied
+threshold.
+Link médio: aqui, dois clusters são mesclados se a distância média entre objetos nos dois clusters for menor que um limite pré-especificado.
+
+Complete link: In this approach, two clusters are merged if the maximum distance between points in the two clusters is less than or equal to a prespeciied threshold. An example is shown in Figure 3.8.
+Link completo: nessa abordagem, dois clusters são mesclados se a distância máxima entre os pontos nos dois clusters for menor ou igual a um limite pré-especificado. Um exemplo é mostrado na Figura 3.8.
+
+Single link and complete link agglomerative clustering techniques are proposed in [Sib73] and [Def77], respectively, and they are the most popular hierarchical agglomerative techniques.
+As técnicas de aglomeração de aglomeração de link único e link completo são propostas em [Sib73] e [Def77], respectivamente, e são as técnicas aglomerativas hierárquicas mais populares.
+
+Figure 3.7
+
+In contrast to the agglomerative clustering algorithms, in divisive clustering we follow a top-down approach. Here we start with all objects belonging in one cluster, and we progressively divide them into smaller and smaller clusters, based on a prespeciied criterion such as the number of clusters to be formed. Important hierarchical clustering techniques, such as AGNES (agglomerative clustering) and DIANA (divisive clustering), are discussed in [Kau90].
+Em contraste com os algoritmos de clustering aglomerativos, em clustering de divisão, seguimos uma abordagem de cima para baixo. Aqui começamos com todos os objetos pertencentes a um cluster, e os dividimos progressivamente em clusters menores e menores, com base em um critério pré-definido, como o número de clusters a serem formados. Técnicas hierárquicas importantes de clustering, como AGNES (clustering aglomerativo) e DIANA (clustering de divisão), são discutidas em [Kau90].
+
+Figure 3.8
+
+3.2.3 Density-Based Clustering
+In this class of algorithms, the main idea is to keep growing clusters as long as their density is above a certain threshold. he advantage of density-based algorithms, in comparison with partitioning algorithms that are distancebased, is that they can detect clusters of arbitrary shape. On the other hand, distance-based algorithms detect only clusters of convex shape.
+3.2.3 Clustering Baseado em Densidade
+Nesta classe de algoritmos, a idéia principal é manter os clusters em crescimento, desde que sua densidade esteja acima de um certo limite. A vantagem dos algoritmos baseados em densidade, em comparação com os algoritmos de particionamento baseados na distância, é que eles podem detectar clusters de formato arbitrário. Por outro lado, os algoritmos baseados em distância detectam apenas aglomerados de forma convexa.
+
+
+
+
+
+
+
 \section{Agrupamento por densidade}
 % TODO Spatio-temporal clustering methods
 
