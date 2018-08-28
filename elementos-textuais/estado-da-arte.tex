@@ -2,7 +2,11 @@
 \chapter{Conceitos e revisão bibliográfica}
 \label{cap:estadodaarte}
 
+Uma visão geral sobre agrupamentos é apresentada na seção \ref{agrupamentos}. Na seção \ref{dbscan} apresentamos o algoritmo DBSCAN em detalhes e suas características. A seção \ref{stdbscan} apresenta o ST-DBSCAN, que é utilizada nesse trabalho para auxlliar os métodos de previsão dinãmica. Na seção  \ref{redes-dinamicas}  discutimos redes dinâmicas e exibimos o modelo DYNAGRAPH e um editor de características. A seção  \ref{trabalhos-relacionados}  define e apresenta os trabalhos relacionados ao problema de agrupamntos dinâmicos.
+
+
 \section{Agrupamentos}
+\label{agrupamentos}
 
 A técnica de agrupamento, também chamada de clustering, é uma das técnicas de mineração de dados mais comuns e é usada para descobrir padrões de distribuição nos dados. O agrupamento é feito com base na similaridade das características e na posição dos objetos. Dessa maneira, o objetivo é que objetos de mesmo grupo sejam muito similares entre si e muito diferentes dos objetos de outros grupos.
 
@@ -104,7 +108,8 @@ são descritos na Seção 1.
 Os agrupamentos baseados em densidade analisam a quantidade de elementos dentro de uma vizinhança de acordo com determinados parâmetros. A idéia-chave é que, para cada instância de um cluster, a vizinhança de um determinado raio deve conter pelo menos um número mínimo de instâncias.
 A possibilidade de encontrar agrupamentos de forma eventual e o fato de não precisar da definição do número de agrupamentos \cite{yip2005} como parâmetro inicial são as principais vantagens dos métodos baseados em densidade. Entretanto, alguns algoritmos podem exigir a definição de outros parâmetros, como o caso do algoritmo DBSCAN \cite{density-based-clusters} abordado na próxima seção.
 
-\subsection{Método DBSCAN}
+\section{Método DBSCAN}
+\label{dbscan}
 % TODO DBSCAN KDD96-037
 % TODO O metodo dbscan https://www.maxwell.vrac.puc-rio.br/24787/24787_6.PDF
 
@@ -206,7 +211,8 @@ significantemente reduzida. Recentemente foi provado em (GAN; TAO, 2015) que par
 maiores que 2 o algoritmo DBSCAN executa em uma complexidade Omega(n4/3). No entanto,
 consideraremos nesse trabalho conjuntos de dados de apenas duas dimensões.
 
-\subsection{Método ST-DBSCAN}
+\section{Método ST-DBSCAN}
+\label{stdbscan}
 % Spatial- Temporal Density Based Clustering (ST-DBSCAN)
 
 6.1. Introdução
@@ -229,10 +235,11 @@ O algoritmo começa com o primeiro ponto p no banco de dados D.
 entre o valor médio do cluster e o novo valor é menor do que DeltaE, ele é colocado no cluster atual.
 
 \section{Redes dinâmicas}
+ \label{redes-dinamicas} 
 \subsection{O modelo Dynagraph}
 \subsection{Editor de características}
 \section{Trabalhos Relacionados}
-
+ \label{trabalhos-relacionados} 
 Como há uma carência de estudos relacionando os assuntos abordados: agrupamento,
 previsão em dados dinâmicos espaço-temporais, grafos dinâmicos e sistemas web
 de forma integrada, foi necessário dividir o problema de agrupamentos e previsões dinâmicos em três etapas:
