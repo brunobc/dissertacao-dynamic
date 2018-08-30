@@ -2,7 +2,7 @@
 \chapter{Conceitos e revisão bibliográfica}
 \label{cap:estadodaarte}
 
-Uma visão geral sobre agrupamentos é apresentada na seção \ref{agrupamentos}. Na seção \ref{dbscan} apresentamos o algoritmo DBSCAN em detalhes e suas características. A seção \ref{stdbscan} apresenta o ST-DBSCAN, que é utilizada nesse trabalho para auxlliar os métodos de previsão dinâmica. Na seção  \ref{redes-dinamicas}  discutimos redes dinâmicas, exibimos o modelo DYNAGRAPH e um editor de características. A seção  \ref{trabalhos-relacionados}  define e apresenta os trabalhos relacionados ao problema de agrupamntos dinâmicos.
+Uma visão geral sobre agrupamentos é apresentada na seção \ref{agrupamentos}. Na seção \ref{dbscan} apresentamos o algoritmo DBSCAN em detalhes e suas características. A seção \ref{stdbscan} apresenta o ST-DBSCAN, que é utilizada nesse trabalho para auxlliar os métodos de previsão dinâmica. Na seção  \ref{redes-dinamicas}  discutimos redes dinâmicas, exibimos o modelo DYNAGRAPH e um editor de características. A seção  \ref{trabalhos-relacionados}  define e apresenta os trabalhos relacionados ao problema de agrupamentos dinâmicos.
 
 
 \section{Agrupamentos}
@@ -14,40 +14,21 @@ Essa técnica é muito utilizada para dados estáticos. No entanto, há pouco tr
 
 Agrupamentos dinâmicos podem mudar seu tamanho, forma, localização e propriedades estatísticas de um único passo para o próximo. Embora os agrupamentos possam se mover ou mudar de forma, existem vários pontos que não alteram as associações de grupos por um período de tempo. Tendo isso em vista é possível extrair de forma autônoma agrupamentos dinâmicos em dados espaço-temporais contínuos que podem conter valores, ruídos ou características muito variáveis.
 
-% Dissertação_AntonioCavalcanteAraujoNeto_Final
-Agrupamento é o processo de encontrar grupos, também chamados de clusters, em
-um conjunto de dados a partir de suas características, de forma que elementos que pertencem
-ao mesmo grupo são mais similares entre si do que entre elementos de outros grupos. As
-medidas de similaridades podem variar de acordo com o algoritmo ou de acordo com os dados.
-Ao contrário do processo de classificação, onde existem rótulos predefinidos para categorizar
-os dados, no agrupamento não se sabe a priori quantos e quais clusters serão encontrados. Os
-principais métodos de agrupamento existentes na literatura podem ser categorizados, como mostra
-as próximas sessões.
+Os métodos mais tradicionais são os particionais e os hierárquicos. Alguns algoritmos de agrupamento integram as idéias de vários outros, logo é difícil classificar um algoritmo pertencendo a somente uma categoria de método de agrupamento. Além do que, algumas aplicações podem ter critérios que necessitam a integração de várias técnicas de agrupamento.  Os principais métodos de agrupamento existentes na literatura podem ser categorizados, como mostra as próximas sessões.
 
 \subsection{Métodos baseados em particionamento}
-% Dissertação_AntonioCavalcanteAraujoNeto_Final
-Esses métodos consistem na maneira mais fundamental de agrupamento. Eles recebem
-como entrada, além de um conjunto de dados D, um inteiro k que representa o
-número de clusters que se deseja encontrar. Inicialmente, o centro de cada grupo, que
-não necessariamente é um ponto de D, é determinado. A cada passo, os elementos de D
-são associados ao cluster definido pelo centro mais próximo de cada ponto. A distância
-entre um elemento de D e um centro é calculada de acordo com algum critério de similaridade
-estabelecido pelo algoritmo. Após a etapa de associação, os centros dos grupos
-são atualizados. Esse processo é repetido até que um ótimo local seja atingido. Dentre os
-algoritmos mais conhecidos nessa categoria destacam-se o k-means e o k-medoids.
-No algoritmo k-means os centros dos grupos são conhecidos como centróides. A escolha
-dos centróides é comumente feita através de amostras aleatórias de D. Uma vez finalizada
-a etapa de associação de cada elemento do conjunto D ao seu centróide mais próximo, os
-valores dos centróides são atualizados de acordo com a média dos elementos que estão
-associados àquele centróide. Esses passos são repetidos até que os centróides não mudem.
-A dificuldade da escolha dos valores iniciais para os centróides, além do número de centróides
-são as principais desvantagens do algoritmo k-means. Ainda, não há garantia que
-o algoritmo convirja para um ótimo global, tornando o resultado do agrupamento bastante
-sensível à inicialização dos centróides. Por outro lado, a baixa complexidade computacional
-do algoritmo descrito o torna atrativo para aplicações onde existe um conhecimento
-prévio sobre o domínio do conjunto de dados
+O processo particional consiste em escolher k objetos como sendo os centros dos k grupos, onde k  é um inteiro que representa o número de grupos que se deseja encontrar, que é passado pelo usuário. Além disso, um conjunto de dados D é passado como entrada. 
+Os objetos são divididos entre os k grupos de acordo com algum critério de similaridade
+estabelecido pelo algoritmo, de modo que cada objeto fique no grupo que tem o menor valor de
+distância entre o objeto e o centro dele.
+Após a etapa de associação, os centros dos grupos são atualizados, de modo que a função objetivo seja otimizada.
 
-\subsection{Agrupamento hierárquicos}
+Os algoritmos mais conhecidos dessa abordagem são o k-means e o k-medoids.
+Os k-means utilizam a média dos objetos que são do grupo em questão, também conhecido como centro de gravidade do cluster. Os k-medoids representa o objeto que se encontra mais próximo ao centro de gravidade do grupo,
+sendo que o elemento mais próximo ao centro se chama medoid.
+
+
+\subsection{Métodos hierárquicos}
 % Dissertação_AntonioCavalcanteAraujoNeto_Final
 Os métodos hierárquicos têm como resultado um aninhamento de grupos e o grau de
 similaridade entre esses grupos. Os algoritmos hierárquicos podem ser subcategorizados
@@ -89,7 +70,7 @@ também ser considerado como um método baseado em densidade. O STING também
 apresenta como vantagem complexidade linear de tempo em relação ao número de objetos
 a serem agrupados.
 
-\subsection{Agrupamento por densidade}
+\subsection{Métodos baseados em densidade}
 % Dissertação_AntonioCavalcanteAraujoNeto_Final
 Os métodos baseados em densidade assumem que os elementos que pertencem a
 um determinado cluster seguem uma mesma distribuição. O objetivo dessas técnicas é
