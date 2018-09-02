@@ -112,23 +112,11 @@ Uma das vantagens do STING é a complexidade linear de tempo em relação ao nú
 a serem agrupados.
 
 \subsection{Métodos baseados em densidade}
-% Dissertação_AntonioCavalcanteAraujoNeto_Final
-Os métodos baseados em densidade assumem que os elementos que pertencem a
-um determinado cluster seguem uma mesma distribuição. O objetivo dessas técnicas é
-identificar os clusters de acordo com os parâmetros que descrevem essa distribuição. Em
-outras palavras, os clusters são modelados como regiões densas do conjunto de dados,
-divididos por áreas de regiões esparsas. Dentre as vantagens desses métodos destacase
-a capacidade de identificar clusters de formatos arbitrários, enquanto que os métodos
-baseados em particionamento, por exemplo, apresentam melhores resultados com clusters
-de formato circular.
-Dentre os algoritmos baseados em densidade existentes na literatura, o DBSCAN se destaca
-como um dos mais utilizados. As características e detalhes do algoritmo DBSCAN
-são descritos na Seção 1.
+Nesta classe de algoritmos, a idéia principal é manter os grupos em crescimento, desde que sua densidade esteja acima de um certo limite. A vantagem dos algoritmos baseados em densidade, em comparação com os algoritmos de particionamento baseados em distância, é que eles podem detectar grupos de forma arbitrária. Isso também fornece uma proteção natural contra outliers. Por outro lado, os algoritmos baseados em distância detectam apenas aglomerados de forma convexa.
 
-% TODO Spatio-temporal clustering methods
+Os agrupamentos baseados em densidade analisam a quantidade de elementos dentro de uma vizinhança de acordo com determinados parâmetros. A idéia-chave é que, para cada instância de um grupo, a vizinhança de um determinado raio deve conter pelo menos um número mínimo de instâncias.
 
-Os agrupamentos baseados em densidade analisam a quantidade de elementos dentro de uma vizinhança de acordo com determinados parâmetros. A idéia-chave é que, para cada instância de um cluster, a vizinhança de um determinado raio deve conter pelo menos um número mínimo de instâncias.
-A possibilidade de encontrar agrupamentos de forma eventual e o fato de não precisar da definição do número de agrupamentos \cite{yip2005} como parâmetro inicial são as principais vantagens dos métodos baseados em densidade. Entretanto, alguns algoritmos podem exigir a definição de outros parâmetros, como o caso do algoritmo DBSCAN \cite{density-based-clusters} abordado na próxima seção.
+A possibilidade de encontrar agrupamentos de forma eventual e o fato de não precisar da definição do número de agrupamentos \cite{yip2005} como parâmetro inicial são as principais vantagens dos métodos baseados em densidade. Entretanto, alguns algoritmos podem exigir a definição de outros parâmetros, como o caso do algoritmo DBSCAN \cite{ESTER1996} abordado na próxima seção.
 
 \section{Método DBSCAN}
 \label{dbscan}
