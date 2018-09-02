@@ -89,24 +89,26 @@ Em \cite{Guha1998}, um novo algoritmo hierárquico é proposto para detectar gru
 \end{itemize}
 Os resultados experimentais no artigo mostram que o tempo de execução do CURE é sempre menor que o do BIRCH. Mais importante, os resultados mostram que, à medida que o tamanho do banco de dados aumenta, o tempo de execução do BIRCH aumenta rapidamente enquanto o tempo de execução do CURE aumenta muito pouco. O motivo é que o BIRCH varre todo o banco de dados e usa todos os pontos para o pré-agrupamento, enquanto o CURE usa apenas uma amostra aleatória.
 
-\subsection{Métodos baseados em grids}
-% Dissertação_AntonioCavalcanteAraujoNeto_Final
-Enquanto que os outros métodos de agrupamento discutidos são orientados aos dados,
-os métodos baseados em grade são orientados ao espaço. Essencialmente, o espaço
-é dividido em células de uma estrutura de grade independente da distribuição dos dados.
-Essa estrutura é capaz de representar os objetos do conjunto de entrada através das células
-da grade. Todas as operações de agrupamento são realizadas na estrutura de grade
-criada. Essa é uma das principais vantagens dessa classe de algoritmos, uma vez que seu
-desempenho não depende diretamente do número de entradas do conjunto de dados, mas
-sim do número de células em cada dimensão da grade.
-O algoritmo STING (STatistical INformation Grid) se baseia na construção de diversas
-camadas de grade, onde células de uma camada mais alta são subdivididas para a criação
-de células nas camadas mais baixas. A partir dessa organização, informações estatísticas
-sobre as células são pré-computadas e armazenadas para a identificação dos clusters.
+\subsection{Métodos baseados em na estrutura de grade}
+Enquanto que os outros métodos de agrupamento discutidos são orientados aos dados, os métodos baseados em grade são orientados ao espaço. Essencialmente, o espaço é dividido em células retangulares, representadas por uma estrutura de grade hierárquica.
+
+\cite{Wang1997} propuseram um método de agrupamento baseado em grade, STING (STatistical INformation Grid - Informação estatística baseada em grade), para agrupar bancos de dados espaciais e facilitar consultas orientadas à região. Esse algoritmo se baseia na construção de diversas camadas de grade, onde células de uma camada mais alta são subdivididas para a criação de células nas camadas mais baixas, como mostra a figura \ref{fig:sting}.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figuras/sting.png}
+	\caption{Algoritmo STING: subdivisão de células e construção de árvores}
+	\legend{Fonte: \cite{Berkhin2002}}
+	\label{fig:sting}
+\end{figure}
+
+O desempenho de STING depende da granularidade do nível mais baixo da estrutura de grade e o resultado dos
+grupos são limitados, pois só crescem na horizontal ou vertical e sofrem para buscar grupos de formatos complexos.
+
 Os resultados produzidos pelo STING se aproximam do agrupamento produzido pelo
 DBSCAN a medida que a granularidade da estrutura de grade se aproxima de 0, podendo
-também ser considerado como um método baseado em densidade. O STING também
-apresenta como vantagem complexidade linear de tempo em relação ao número de objetos
+também ser considerado como um método baseado em densidade.
+Uma das vantagens do STING é a complexidade linear de tempo em relação ao número de objetos
 a serem agrupados.
 
 \subsection{Métodos baseados em densidade}
