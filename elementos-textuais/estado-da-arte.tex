@@ -95,11 +95,13 @@ Enquanto que os outros métodos de agrupamento discutidos são orientados aos da
 \cite{Wang1997} propuseram um método de agrupamento baseado em grade, STING (STatistical INformation Grid - Informação estatística baseada em grade), para agrupar bancos de dados espaciais e facilitar consultas orientadas à região. Esse algoritmo se baseia na construção de diversas camadas de grade, onde células de uma camada mais alta são subdivididas para a criação de células nas camadas mais baixas, como mostra a figura \ref{fig:sting}.
 
 \begin{figure}[!h]
-	\centering
-	\includegraphics[width=0.6\textwidth]{figuras/sting.png}
-	\caption{Algoritmo STING: subdivisão de células e construção de árvores}
-	\legend{Fonte: \cite{Berkhin2002}}
-	\label{fig:sting}
+	\centering	
+	\Caption{\label{fig:sting} Algoritmo STING: subdivisão de células e construção de árvores}	
+	\UECEfig{}{
+		\includegraphics[width=8cm]{figuras/sting.png}
+	}{
+		\Fonte{\cite{Berkhin2002}}
+	}
 \end{figure}
 
 O desempenho de STING depende da granularidade do nível mais baixo da estrutura de grade e o resultado dos
@@ -123,7 +125,38 @@ A possibilidade de encontrar agrupamentos de forma eventual e o fato de não pre
 % TODO DBSCAN KDD96-037
 % TODO O metodo dbscan https://www.maxwell.vrac.puc-rio.br/24787/24787_6.PDF
 
-Este algoritmo calcula a densidade de uma região contando quantos pontos existem em uma determinada área seguindo uma determinada métrica, geralmente uma medida de distância, como a euclidiana ou manhattan. O método DBSCAN separa os pontos de dados em três classes:
+Este algoritmo calcula a densidade de uma região contando quantos pontos existem em uma determinada área seguindo uma determinada métrica, geralmente uma medida de distância, como a euclidiana ou manhattan. 
+É um método efetivo para identificar grupos de formato arbitrário e de diferentes tamanhos, separar os ruídos dos dados, requer apenas um parâmetro de entrada, ajuda o usuário na determinação de um valor apropriado para ele e ajuda a detectar grupos e seus arranjos dentro do espaço de dados, sem qualquer informação preliminar sobre os grupos.
+\cite{ESTER1996}  escrevem que a noção de agrupamentos e o algoritmo DBSCAN se aplicam para espaços euclidianos de duas e três dimensões, como para qualquer espaço característico de alta dimensão. O método DBSCAN é aplicável a qualquer base de dados contendo dados de um espaço métrico, isto é, bases de dados com uma função de distância para pares de objetos. Finalmente, o DBSCAN é eficiente mesmo para grandes bancos de dados espaciais.
+Para entender o método é necessário conhecer algumas definições específicas listadas a seguir. 
+
+\newtheorem{defDbscan}{Definição}
+\begin{defDbscan}
+	(Eps-vizinhança de um ponto) Eps-vizinhança de um ponto ${p}$, dado por ${N_{Eps}(p)}$, é definido por ${N_{Eps}(p) = \big\{ q \in D | dist(p, q)  \leqslant Eps\big\} }$. Na figura\ref{fig:epsViz} abaixo os círculos representam respectivamente o Eps-vizinhança do ponto ${q}$ e Eps-vizinhança do ponto ${p}$. Uma abordagem ingênua poderia exigir para cada ponto em um cluster que haja pelo menos um número mínimo (MinPts) de pontos na Eps-vizinhança daquele ponto. No entanto, esta abordagem falha porque há dois tipos de pontos em um grupo, pontos dentro do grupo (centrais) e pontos na fronteira do grupo (pontos de borda). 
+\end{defDbscan}
+
+\begin{figure}[!h]
+	\centering
+	\Caption{\label{fig:epsViz} Eps-vizinhança de  ${q}$ e Eps-vizinhança de ${p}$}	
+	\UECEfig{}{
+		\includegraphics[width=8cm]{figuras/epsViz.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+
+\begin{defDbscan}
+	(Ponto Central) : Se o Eps-vizinhança de um objeto ${p}$ contém ao menos um número mínimo, MinPts, de objetos, então o objeto ${p}$ é chamado de ponto central.
+	Por exemplo, na figura \ref{fig:epsViz}, se adotarmos MinPts = 4, p é um ponto central e os demais não são pontos centrais.
+\end{defDbscan}
+
+
+
+
+
+
+
+ O método DBSCAN separa os pontos de dados em três classes:
 • Pontos principais. Estes são pontos que estão no interior de um cluster. Um ponto é um ponto interior se houver pontos suficientes em sua vizinhança.
 • Pontos de fronteira. Um ponto de fronteira é um ponto que não é um ponto central, ou seja, não há pontos suficientes em sua vizinhança, mas ele está dentro da vizinhança de um ponto central.
 • Pontos de ruído. Um ponto de ruído é qualquer ponto que não é um ponto central ou um ponto de fronteira.
@@ -131,8 +164,6 @@ Este algoritmo calcula a densidade de uma região contando quantos pontos existe
 Para encontrar um cluster, o DBSCAN começa com uma instância arbitrária (p) no conjunto de dados (D) e recupera todas as instâncias de D em relação a Eps e MinPts
 Density-Based Algorithms for Discovering Clusters in Large Spatial Databases with Noise (DBSCAN)
 DBSCAN [1] é um algoritmo baseado em densidade que descobre clusters com forma arbitrária e com um número mínimo de parâmetros de entrada. Os parâmetros de entrada necessários para este algoritmo são o raio do cluster (Eps) e os pontos mínimos necessários dentro do cluster (Minpts).
-
-Para agrupar os pontos levando em conta o fator tempo é necessário uma alteração no algoritmo DBScan, e com isso detectar os grupos em relação ao tempo. Logo, o algoritmo determinada para esta implementação foi o ST-DBScan \cite{Birant2007STDBSCANAA}, abordado a seguir.
 
 2.2. Descrição do Algoritmo
 Nesta seção, o algoritmo DBSCAN [7] Clustering espacial baseado em densidade de aplicativos com ruído é projetado para descobrir os clusters de dados espaciais com ruído. As etapas envolvidas neste algoritmo são as seguintes,
@@ -220,6 +251,10 @@ de estruturas de índices, como k-d-Trees ou R-Trees, a complexidade do DBSCAN p
 significantemente reduzida. Recentemente foi provado em (GAN; TAO, 2015) que para dimensões
 maiores que 2 o algoritmo DBSCAN executa em uma complexidade Omega(n4/3). No entanto,
 consideraremos nesse trabalho conjuntos de dados de apenas duas dimensões.
+
+
+
+Para agrupar os pontos levando em conta o fator tempo é necessário uma alteração no algoritmo DBScan, e com isso detectar os grupos em relação ao tempo. Logo, o algoritmo determinada para esta implementação foi o ST-DBScan \cite{Birant2007STDBSCANAA}, abordado a seguir.
 
 \section{Método ST-DBSCAN}
 \label{stdbscan}
