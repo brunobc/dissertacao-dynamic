@@ -128,12 +128,22 @@ A possibilidade de encontrar agrupamentos de forma eventual e o fato de não pre
 Este algoritmo calcula a densidade de uma região contando quantos pontos existem em uma determinada área seguindo uma determinada métrica, geralmente uma medida de distância, como a euclidiana ou manhattan. 
 É um método efetivo para identificar grupos de formato arbitrário e de diferentes tamanhos, separar os ruídos dos dados, requer apenas um parâmetro de entrada, ajuda o usuário na determinação de um valor apropriado para ele e ajuda a detectar grupos e seus arranjos dentro do espaço de dados, sem qualquer informação preliminar sobre os grupos.
 \cite{ESTER1996}  escrevem que a noção de agrupamentos e o algoritmo DBSCAN se aplicam para espaços euclidianos de duas e três dimensões, como para qualquer espaço característico de alta dimensão. O método DBSCAN é aplicável a qualquer base de dados contendo dados de um espaço métrico, isto é, bases de dados com uma função de distância para pares de objetos. Finalmente, o DBSCAN é eficiente mesmo para grandes bancos de dados espaciais.
-Para entender o método é necessário conhecer algumas definições específicas listadas a seguir. 
+Para entender o método é necessário conhecer alguns conceitos básicos do algoritmo: 
 
-\newtheorem{defDbscan}{Definição}
-\begin{defDbscan}
-	(Eps-vizinhança de um ponto) Eps-vizinhança de um ponto ${p}$, dado por ${N_{Eps}(p)}$, é definido por ${N_{Eps}(p) = \big\{ q \in D | dist(p, q)  \leqslant Eps\big\} }$. Na figura\ref{fig:epsViz} abaixo os círculos representam respectivamente o Eps-vizinhança do ponto ${q}$ e Eps-vizinhança do ponto ${p}$. Uma abordagem ingênua poderia exigir para cada ponto em um cluster que haja pelo menos um número mínimo (MinPts) de pontos na Eps-vizinhança daquele ponto. No entanto, esta abordagem falha porque há dois tipos de pontos em um grupo, pontos dentro do grupo (centrais) e pontos na fronteira do grupo (pontos de borda). 
-\end{defDbscan}
+\begin{enumerate}
+	\item Vizinhança: Determinada pela função de distância, que pode ser euclidiana, manhattan, etc.
+	\item Eps: raio ao redor de um ponto. 
+	\item Vizinhança Eps: a vizinhança de um ponto ${p}$ com raio Eps, dado por ${N_{Eps}(p)}$, é definido por ${N_{Eps}(p) = \big\{ q \in D | dist(p, q)  \leqslant Eps\big\} }$. Na figura\ref{fig:epsViz} abaixo os círculos representam respectivamente a vizinhança Eps dos pontos ${q}$ e ${p}$.
+	\item Ponto Central: Se o Eps-vizinhança de um ponto ${p}$ contém ao menos um número mínimo, MinPts, de pontos, então o ponto ${p}$ é chamado de ponto central.
+	Por exemplo, na figura \ref{fig:epsViz}, se adotarmos MinPts = 4, p é um ponto central e os demais não são pontos centrais.
+	\item ponto de borda: Se a vizinhança Eps de um ponto ${p}$ contém algum ponto central e menos que MinPts então o ponto ${p}$ é chamado de ponto de borda. Na figura  \ref{fig:epsViz}, q, r e s são pontos de borda.
+	\item Diretamente alcançável: um ponto ${p}$ é alcançável se ele está na vizinhança Eps de ${q}$ e este é um ponto central.
+	\item Alcance por densidade: um ponto ${p}$ é alcançável se existe uma cadeia de pontos que os liga, que respeita Eps e MinPts.
+	\item Conexão por densidade: Um ponto ${p}$ está conectado a um outro ${q}$ se existe um objeto ${o}$ tal que tanto ${p}$ quanto ${q}$ são alcançáveis a partir de ${o}$, com respeito a Eps e MinPts. Logo é uma relação simétrica.
+	\item Cluster: Seja D uma base de dados, um grupo C é um subconjunto não vazio de D, respeitando Eps e MinPts, onde:
+		\subitem ${\forall}$ p, q se q ${\in}$ C e ${p}$ é alcançável a partir de ${q}$.
+		\subitem ${\forall}$ p, q ${\in}$ C ${p}$ está conectado por densidade a ${q}$.
+\end{enumerate}
 
 \begin{figure}[!h]
 	\centering
@@ -145,15 +155,45 @@ Para entender o método é necessário conhecer algumas definições específica
 	}
 \end{figure}
 
-\begin{defDbscan}
-	(Ponto Central) : Se o Eps-vizinhança de um objeto ${p}$ contém ao menos um número mínimo, MinPts, de objetos, então o objeto ${p}$ é chamado de ponto central.
-	Por exemplo, na figura \ref{fig:epsViz}, se adotarmos MinPts = 4, p é um ponto central e os demais não são pontos centrais.
-\end{defDbscan}
+O procedimento para encontrar um cluster é baseado no fato de que um cluster é
+inequivocamente determinado por qualquer de seus centros \cite{ESTER1998}. Se
+um índice espacial é usado, como uma R-tree, o método DBSCAN alcança melhor
+desempenho, obtendo a complexidade computacional de O(n log n), onde n é o número
+de objetos da base de dados. Caso contrário, ela é de O(${n^2}$) \cite{Sheikholeslami1998}.
 
-
-
-
-
+\begin{algorithm}[h!]
+	\SetSpacedAlgorithm
+	\caption{\label{alg:algoritmo_dbscan}Algoritmo DBScan}
+	\Entrada{D, Eps1, MinPts, Delta, Epsilon}
+	\Saida{C}
+	\Inicio{
+			\Para{i = 1 até n}{
+				\Se{${o_i}$ nao esta em um cluster}{
+					X = BuscarVizinhos(${o_i}$, Eps1)\;
+					\Se {|X| < MinPts}{
+						MarcarRuido(${o_i}$)\;
+					}
+				    \Senao{
+				    	\Para{j = 1 até |X|}{
+				    		RotularObjetos(${X_j}$)\;
+				    		Push(${X_j}$, ${C_i}$)\;
+				    	}
+			    		\Enqto{X ${\neq}$ 0}{
+			    			curr = Pop(${x_i}$)\;
+			    			Y = BuscarVizinhos(curr, Eps1)\;
+			    			\Se{|Y| > MinPts}{
+			    				\Para{todo ${o_y}$}{
+			    					\Se{${\sim}$ isRuido(${o_y}$) ${\wedge}$ ${\sim}$ jaClusterizado(${o_y}$)}{
+			    						Push(X, ${o_y}$)\;
+			    					}
+			    				}
+			    			}
+			    		}
+				    }
+				}
+			}
+	}
+\end{algorithm}
 
 
  O método DBSCAN separa os pontos de dados em três classes:
