@@ -89,7 +89,7 @@ Em \cite{Guha1998}, um novo algoritmo hierárquico é proposto para detectar gru
 \end{itemize}
 Os resultados experimentais no artigo mostram que o tempo de execução do CURE é sempre menor que o do BIRCH. Mais importante, os resultados mostram que, à medida que o tamanho do banco de dados aumenta, o tempo de execução do BIRCH aumenta rapidamente enquanto o tempo de execução do CURE aumenta muito pouco. O motivo é que o BIRCH varre todo o banco de dados e usa todos os pontos para o pré-agrupamento, enquanto o CURE usa apenas uma amostra aleatória.
 
-\subsection{Métodos baseados em na estrutura de grade}
+\subsection{Métodos baseados em estrutura de grade}
 Enquanto que os outros métodos de agrupamento discutidos são orientados aos dados, os métodos baseados em grade são orientados ao espaço. Essencialmente, o espaço é dividido em células retangulares, representadas por uma estrutura de grade hierárquica.
 
 \cite{Wang1997} propuseram um método de agrupamento baseado em grade, STING (STatistical INformation Grid - Informação estatística baseada em grade), para agrupar bancos de dados espaciais e facilitar consultas orientadas à região. Esse algoritmo se baseia na construção de diversas camadas de grade, onde células de uma camada mais alta são subdivididas para a criação de células nas camadas mais baixas, como mostra a figura \ref{fig:sting}.
@@ -138,8 +138,8 @@ Para entender o método é necessário conhecer alguns conceitos básicos do alg
 	Por exemplo, na figura \ref{fig:epsViz}, se adotarmos MinPts = 4, p é um ponto central e os demais não são pontos centrais.
 	\item ponto de borda: Se a vizinhança Eps de um ponto ${p}$ contém algum ponto central e menos que MinPts então o ponto ${p}$ é chamado de ponto de borda. Na figura  \ref{fig:epsViz}, q, r e s são pontos de borda.
 	\item Diretamente alcançável: um ponto ${p}$ é alcançável se ele está na vizinhança Eps de ${q}$ e este é um ponto central.
-	\item Alcance por densidade: um ponto ${p}$ é alcançável se existe uma cadeia de pontos que os liga, que respeita Eps e MinPts.
-	\item Conexão por densidade: Um ponto ${p}$ está conectado a um outro ${q}$ se existe um objeto ${o}$ tal que tanto ${p}$ quanto ${q}$ são alcançáveis a partir de ${o}$, com respeito a Eps e MinPts. Logo é uma relação simétrica.
+	\item Maximalidade: um ponto ${p}$ é alcançável se existe uma cadeia de pontos que os liga, que respeita Eps e MinPts.
+	\item Conectividade: Um ponto ${p}$ está conectado a um outro ${q}$ se existe um objeto ${o}$ tal que tanto ${p}$ quanto ${q}$ são alcançáveis a partir de ${o}$, com respeito a Eps e MinPts. Logo é uma relação simétrica.
 	\item Cluster: Seja D uma base de dados, um grupo C é um subconjunto não vazio de D, respeitando Eps e MinPts, onde:
 		\subitem ${\forall}$ p, q se q ${\in}$ C e ${p}$ é alcançável a partir de ${q}$.
 		\subitem ${\forall}$ p, q ${\in}$ C ${p}$ está conectado por densidade a ${q}$.
@@ -156,10 +156,22 @@ Para entender o método é necessário conhecer alguns conceitos básicos do alg
 \end{figure}
 
 O procedimento para encontrar um cluster é baseado no fato de que um cluster é
-inequivocamente determinado por qualquer de seus centros \cite{ESTER1998}. Se
-um índice espacial é usado, como uma R-tree, o método DBSCAN alcança melhor
-desempenho, obtendo a complexidade computacional de O(n log n), onde n é o número
-de objetos da base de dados. Caso contrário, ela é de O(${n^2}$) \cite{Sheikholeslami1998}.
+inequivocamente determinado por qualquer de seus centros \cite{ESTER1998}. 
+O DBSCAN pode utilizar R*-tree para obter um melhor desempenho, mesmo assim  a complexidade média do tempo de execução do DBSCAN será ${O (N logN)}$, onde ${N}$ é o número de objetos da base de dados \cite{Sheikholeslami1998}.
+
+\subsection{Algoritmo DBSCAN}
+
+As etapas envolvidas neste algoritmo são as seguintes:
+
+\begin{enumerate}
+	\item Selecione um ponto arbitrário ${p}$;
+	\item Recuperar todos os pontos que são alcançáveis por densidade a partir do ponto ${p}$;
+	\item Se ${p}$ é um ponto central, um cluster é formado;
+	\item Se ${p}$ é um ponto de borda, nenhum ponto é alcançável por densidade a partir de ${p}$ e DBSCAN visita o próximo ponto do banco de dados;
+	\item Continue o processo até que todos os pontos tenham sido processados.
+\end{enumerate}
+
+% ver https://www.maxwell.vrac.puc-rio.br/24787/24787_6.PDF
 
 \begin{algorithm}[h!]
 	\SetSpacedAlgorithm
@@ -195,111 +207,13 @@ de objetos da base de dados. Caso contrário, ela é de O(${n^2}$) \cite{Sheikho
 	}
 \end{algorithm}
 
-
- O método DBSCAN separa os pontos de dados em três classes:
-• Pontos principais. Estes são pontos que estão no interior de um cluster. Um ponto é um ponto interior se houver pontos suficientes em sua vizinhança.
-• Pontos de fronteira. Um ponto de fronteira é um ponto que não é um ponto central, ou seja, não há pontos suficientes em sua vizinhança, mas ele está dentro da vizinhança de um ponto central.
-• Pontos de ruído. Um ponto de ruído é qualquer ponto que não é um ponto central ou um ponto de fronteira.
-
-Para encontrar um cluster, o DBSCAN começa com uma instância arbitrária (p) no conjunto de dados (D) e recupera todas as instâncias de D em relação a Eps e MinPts
-Density-Based Algorithms for Discovering Clusters in Large Spatial Databases with Noise (DBSCAN)
-DBSCAN [1] é um algoritmo baseado em densidade que descobre clusters com forma arbitrária e com um número mínimo de parâmetros de entrada. Os parâmetros de entrada necessários para este algoritmo são o raio do cluster (Eps) e os pontos mínimos necessários dentro do cluster (Minpts).
-
-2.2. Descrição do Algoritmo
-Nesta seção, o algoritmo DBSCAN [7] Clustering espacial baseado em densidade de aplicativos com ruído é projetado para descobrir os clusters de dados espaciais com ruído. As etapas envolvidas neste algoritmo são as seguintes,
-…
-(i) Selecione um ponto arbitrário p
-(ii) Recuperar todos os pontos de densidade-reachable de p w.r.t. Eps e Minpts.
-(iii) Se p é um ponto central, um cluster é formado.
-(iv) Se p é um ponto de borda, nenhum ponto é densidade acessível de p e DBSCAN visita o próximo ponto do banco de dados.
-(v) Continue o processo até que todos os pontos tenham sido processados.
-
-2.3 Impacto do Algoritmo
-DBSCAN requer dois parâmetros de entrada (pontos mínimos e raio) e suporta o usuário ao encontrar um valor aproximado para ele usando o gráfico k-dist [7]. Ele descobre grupos de forma arbitrária. Ele é válido para grandes bancos de dados espaciais.
-…
-
-2.4 Trabalho futuro
-O algoritmo DBSCAN aqui considera [1] apenas objetos de ponto, mas pode ser estendido para outros objetos espaciais, como polígonos. As aplicações do DBSCAN para espaços de recursos de alta dimensão devem ser investigadas e a geração de raio para esses dados de alta dimensão também precisa ser explorada. Também não consegue detectar agrupamentos com densidade variada.
-
-% Dissertação_AntonioCavalcanteAraujoNeto_Final
-DBSCAN (Density-based Spatial Clustering of Applications with Noise) é um algoritmo
-de agrupamento baseado em densidade vastamente utilizado pela comunidade científica.
-Seu objetivo principal consiste em encontrar concentrações de elementos que estão espacialmente
-próximos. Em outras palavras, o algoritmo busca por pontos que possuem mais que um
-limiar de vizinhos dentro de um certo raio. Caso um elemento p satisfaça essa propriedade, os
-vizinhos de p pertencerão ao mesmo cluster que p e o mesmo processo é aplicado a todos os
-seus vizinhos. Além do conjunto de dados a ser agrupado, o DBSCAN recebe também dois
-parâmetros de entrada: minPoints e eps. O primeiro deles se refere à quantidade mínima de
-pontos em um certo raio de vizinhança para a formação de um cluster. Já o segundo parâmetro
-se refere ao raio no qual a verificação de vizinhança é realizada. A função de distância utilizada
-para determinar a vizinhança de um certo ponto é definida de acordo com o tipo de dado
-a ser agrupado e deve obedecer às restrições de uma função de distância, tais como simetria
-e a desigualdade triangular, além de assumir que a distância entre dois elementos x e y só é
-igual a 0 se x = y. Dentre suas vantagens, o algoritmo DBSCAN se destaca por ser capaz de
-encontrar clusters com formatos arbitrários, além de ser capaz de lidar com ruídos nos dados,
-característica que não está presente na maioria dos algoritmos de agrupamento, como mostrado
-na Figura 2.1.
-As definições básicas utilizadas no DBSCAN são apresentadas a seguir:
-• |A|: cardinalidade do conjunto A.
-• Neps(p): é o conjunto de pontos q que estão a uma distância menor que eps do ponto p.
-Também é chamado de conjunto dos vizinhos de p.
-• Diretamente alcançável por densidade (DDR): um ponto p é DDR a partir de um ponto q
-se p E Neps(q) e |Neps(q)| >= minPoints.
-
-Figura 2.1: Clusters de formatos arbitrários encontrados pelo algoritmo DBSCAN
-Fonte: Data Mining - The Hypertextbook
-• Alcançável por densidade (DR): um ponto p é DR a partir de um ponto q, se existe uma
-sequência de pontos {p1,..., pn} onde p1 = p e pn = q, tal que pi+1 é DDR a partir de pi
-.
-• Conectado por densidade (DC): Um ponto p está conectado por densidade a um ponto q
-se existe um ponto o tal que p e q são DR a partir de o.
-• Core point: um ponto p é classificado como core point se |Neps(o)| >= minPoints.
-• Border point: um ponto p é classificado como border point se |Neps(p)| < minPoints e p
-é DDR a partir de um core point.
-• Noise: Um ponto p é classificado como noise se |Neps(q)| < minPoints e p não é DDR a
-partir de nenhum core point.
-No contexto do algoritmo DBSCAN, um cluster C é definido como um subconjunto
-não vazio dos dados que satisfaz as seguintes propriedades:
-• Maximalidade: Para quaisquer dois pontos p e q, se p E C e q é alcançável por densidade
-(DR) a partir de p, então q E C.
-• Conectividade: Para quaisquer dois pontos p,q E C, p é q são conectados por densidade
-(DC).
-O Algoritmo 1 mostra o pseudocódigo do DBSCAN. Para cada elemento p ainda
-não visitado o conjunto dos seus vizinhos Neps(p) é encontrado, como podemos ver entre as linhas
-2 e 5. Caso a cardinalidade desse conjunto de vizinhos seja maior que o valor de minPoints
-(Linha 6 do Algoritmo), um novo cluster C é criado e p e seus vizinhos serão atribuídos a C.
-Ainda, os pontos não visitados de C serão expandidos em um processo similar. A agrupamento
-acaba quando todos os elementos do conjunto foram visitados.
-O Algoritmo 2 implementa a função de expansão de um cluster C. A expansão
-de um cluster a partir de um ponto p encontra todos os elementos que são conectados por
-densidade (DC) a p. Essa função recebe como entrada p, seu conjunto de vizinhos NeighborPts,
-o identificador C do cluster a ser expandido, e os parâmetros eps e minPoints. Para cada ponto
-p' do conjunto de vizinhos de p, caso esse ponto ainda não tenha sido visitado, sua vizinhança
-é recuperada e adicionada ao conjunto NeighborPts de vizinhos que serão verificados (linha
-8). Após sua verificação, caso p' não pertença a nenhum cluster, ele é adicionado ao cluster C
-(linhas 11 a 13). O processo finaliza quando o conjunto NeighborPts está vazio.
-
-Alg 1 e alg 2
-
-Como podemos ver nos Algoritmos 1 e 2, a complexidade do DBSCAN depende
-diretamente do custo computacional para recuperação da vizinhança de um ponto (linhas 7 e
-6 dos Algoritmos 1 e 2, respectivamente). Em uma solução ingênua essa operação poderia ser
-executada em tempo linear, onde uma simples busca exaustiva em todo o conjunto de dados
-retornaria apenas os elementos a uma certa distância do ponto de consulta. Tal solução faria
-com que a complexidade do algoritmo DBSCAN fosse O(n2). Por outro lado, com o auxílio
-de estruturas de índices, como k-d-Trees ou R-Trees, a complexidade do DBSCAN pode ser
-significantemente reduzida. Recentemente foi provado em (GAN; TAO, 2015) que para dimensões
-maiores que 2 o algoritmo DBSCAN executa em uma complexidade Omega(n4/3). No entanto,
-consideraremos nesse trabalho conjuntos de dados de apenas duas dimensões.
-
-
-
 Para agrupar os pontos levando em conta o fator tempo é necessário uma alteração no algoritmo DBScan, e com isso detectar os grupos em relação ao tempo. Logo, o algoritmo determinada para esta implementação foi o ST-DBScan \cite{Birant2007STDBSCANAA}, abordado a seguir.
 
 \section{Método ST-DBSCAN}
 \label{stdbscan}
 % Spatial- Temporal Density Based Clustering (ST-DBSCAN)
 
+\iffalse
 6.1. Introdução
 
 O algoritmo ST-DBSCAN é construído modificando o algoritmo DBSCAN [7]. Em contraste com o algoritmo de agrupamento baseado em densidade existente, o algoritmo ST-DBSCAN [12] tem a capacidade de descobrir clusters em relação aos valores não espaciais, espaciais e temporais dos objetos. As três modificações feitas no algoritmo DBSCAN são as seguintes,
@@ -318,7 +232,7 @@ O algoritmo começa com o primeiro ponto p no banco de dados D.
 (v) Então, o algoritmo coleta de forma iterativa objetos atingidos pela densidade do objeto do núcleo usando a pilha.
 (vi) Se o objeto não estiver marcado como ruído ou não estiver em um cluster e a diferença
 entre o valor médio do cluster e o novo valor é menor do que DeltaE, ele é colocado no cluster atual.
-
+\fi
 \section{Redes dinâmicas}
  \label{redes-dinamicas} 
 \subsection{O modelo Dynagraph}
@@ -355,7 +269,7 @@ introduzir novas formas de enxergar ou descrever a evolução de eventos dinâmi
 estáticos, no entanto avança sobre as métricas introduzindo conceitos como disponibilidade
 temporal, proximidade temporal e geodésica, e estuda os seus grafos sobre redes reais.
 
-Segundo \cite{density-based-clusters}, o algoritmo DBScan(\textit{Density-Based Spatial Clustering
+Segundo \cite{ESTER1996}, o algoritmo DBScan (\textit{Density-Based Spatial Clustering
 of Applications With Noise}) calcula a densidade de uma região contando quantos pontos existem
 em uma determinada área seguindo uma determinada métrica. Ele permite a redução de pontos não
 pertencentes a nenhum padrão, assim como possibilita a formação de grupos de diferentes formas.
