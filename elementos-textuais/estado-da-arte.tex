@@ -133,7 +133,7 @@ Para entender o método é necessário conhecer alguns conceitos básicos do alg
 \begin{enumerate}
 	\item Vizinhança: Determinada pela função de distância, que pode ser euclidiana, manhattan, etc.
 	\item Eps: raio ao redor de um ponto. 
-	\item Vizinhança Eps: a vizinhança de um ponto ${p}$ com raio Eps, dado por ${N_{Eps}(p)}$, é definido por ${N_{Eps}(p) = \big\{ q \in D | dist(p, q)  \leqslant Eps\big\} }$. Na figura\ref{fig:epsViz} abaixo os círculos representam respectivamente a vizinhança Eps dos pontos ${q}$ e ${p}$.
+	\item Vizinhança Eps: a vizinhança de um ponto ${p}$ com raio Eps, dado por ${N_{Eps}(p)}$, é definido por ${N_{Eps}(p) = \big\{ q \in D | dist(p, q)  \leqslant Eps\big\} }$. Na figura \ref{fig:epsViz} abaixo os círculos representam respectivamente a vizinhança Eps dos pontos ${q}$ e ${p}$.
 	\item Ponto Central: Se o Eps-vizinhança de um ponto ${p}$ contém ao menos um número mínimo, MinPts, de pontos, então o ponto ${p}$ é chamado de ponto central.
 	Por exemplo, na figura \ref{fig:epsViz}, se adotarmos MinPts = 4, p é um ponto central e os demais não são pontos centrais.
 	\item ponto de borda: Se a vizinhança Eps de um ponto ${p}$ contém algum ponto central e menos que MinPts então o ponto ${p}$ é chamado de ponto de borda. Na figura  \ref{fig:epsViz}, q, r e s são pontos de borda.
@@ -164,11 +164,11 @@ O DBSCAN pode utilizar R*-tree para obter um melhor desempenho, mesmo assim  a c
 As etapas envolvidas neste algoritmo são as seguintes:
 
 \begin{enumerate}
-	\item Selecione um ponto arbitrário ${p}$;
+	\item Selecionar um ponto arbitrário ${p}$;
 	\item Recuperar todos os pontos que são alcançáveis por densidade a partir do ponto ${p}$;
 	\item Se ${p}$ é um ponto central, um cluster é formado;
 	\item Se ${p}$ é um ponto de borda, nenhum ponto é alcançável por densidade a partir de ${p}$ e DBSCAN visita o próximo ponto do banco de dados;
-	\item Continue o processo até que todos os pontos tenham sido processados.
+	\item Continuar o processo até que todos os pontos tenham sido processados.
 \end{enumerate}
 
 % ver https://www.maxwell.vrac.puc-rio.br/24787/24787_6.PDF
@@ -179,30 +179,42 @@ As etapas envolvidas neste algoritmo são as seguintes:
 	\Entrada{D, Eps1, MinPts, Delta, Epsilon}
 	\Saida{C}
 	\Inicio{
-			\Para{i = 1 até n}{
-				\Se{${o_i}$ nao esta em um cluster}{
-					X = BuscarVizinhos(${o_i}$, Eps1)\;
-					\Se {|X| < MinPts}{
+			\Para{i = 0 até n}{
+				\Se{${o_i}$ nao foi visitado}{
+					marcar ${o_i}$ como visitado\;
+					Vizinhos = BuscarVizinhos(${o_i}$)\;
+					\Se {|Vizinhos| < MinPts}{
 						MarcarRuido(${o_i}$)\;
 					}
 				    \Senao{
-				    	\Para{j = 1 até |X|}{
-				    		RotularObjetos(${X_j}$)\;
-				    		Push(${X_j}$, ${C_i}$)\;
-				    	}
-			    		\Enqto{X ${\neq}$ 0}{
-			    			curr = Pop(${x_i}$)\;
-			    			Y = BuscarVizinhos(curr, Eps1)\;
-			    			\Se{|Y| > MinPts}{
-			    				\Para{todo ${o_y}$}{
-			    					\Se{${\sim}$ isRuido(${o_y}$) ${\wedge}$ ${\sim}$ jaClusterizado(${o_y}$)}{
-			    						Push(X, ${o_y}$)\;
-			    					}
-			    				}
-			    			}
-			    		}
+				    	C = próximo Cluster\;
+				    	adicionar ${o_i}$ ao cluster C\;
+				    	expandirCluster(${o_i}$, C, Vizinhos)\;
 				    }
 				}
+			}
+	}
+\end{algorithm}
+
+\begin{algorithm}[h!]
+	\SetSpacedAlgorithm
+	\caption{\label{alg:algoritmo_dbscan_exp}Algoritmo DBScan - Expandir Cluster}
+	\Entrada{Vizinhos, C, MinPts}
+	\Inicio{
+			\Para{i = 0 até número de Vizinhos}{
+				p = ${Vizinhos_{(i)}}$\;
+				\Se {p ainda não foi visitado}{
+					marcar p como visitado\;
+					Vizinhos2 = BuscarVizinhos(p)\;
+					
+					\Se {Vizinhos2 ${\geqslant}$ MinPts}{
+						Vizinhos = Vizinhos ${\cup}$ Vizinhos2\;
+					}
+				}
+				\Se{p não está em nenhum cluster}{
+					adicionar p ao cluster C\;
+				}
+				
 			}
 	}
 \end{algorithm}
