@@ -225,8 +225,8 @@ Para agrupar os pontos levando em conta o fator tempo é necessário uma altera�
 \label{stdbscan}
 
 % Comentar um bloco de código: \iffalse \fi
-O algoritmo DBSCAN usa apenas um parâmetro de distância Eps para medir a similaridade de dados espaciais com uma dimensão. A fim de suportar dados espaciais bidimensionais, propomos duas métricas de distância, Eps1 e Eps2, para definir a similaridade por uma conjunção de dois testes de densidade.
-O algoritmo ST-DBSCAN é construído modificando o algoritmo DBSCAN \cite{ESTER1998}. Em contraste com o algoritmo de agrupamento baseado em densidade existente, o algoritmo ST-DBSCAN \cite{Birant2007STDBSCANAA} tem a capacidade de descobrir clusters de acordo com valores não espaciais, espaciais e temporais dos objetos. As três modificações feitas no algoritmo DBSCAN são as seguintes:
+O algoritmo DBSCAN \cite{ESTER1998} usa apenas um parâmetro de distância Eps para medir a similaridade de dados espaciais com uma dimensão. A fim de suportar dados espaciais bidimensionais, o ST-DBSCAN \cite{Birant2007STDBSCANAA} usa duas métricas de distância, Eps1 e Eps2, para definir a similaridade por uma conjunção de dois testes de densidade.
+O algoritmo ST-DBSCAN é construído modificando o algoritmo DBSCAN. Em contraste com o algoritmo de agrupamento baseado em densidade existente, o algoritmo ST-DBSCAN tem a capacidade de descobrir clusters de acordo com valores não espaciais, espaciais e temporais dos objetos. As três modificações feitas no algoritmo DBSCAN são as seguintes:
 \begin{itemize}
 \item Permitir o algoritmo ST-DBSCAN descobrir grupos em dados espaciais-temporais.
 \item Introdução do fator de densidade atribuído a cada cluster, que é o seu grau de densidade,
@@ -255,7 +255,7 @@ ${DensityFactor(C) = 1\big/\left [   \frac{\sum_{p\in C}DensityDistance(p)}{|C|}
 Com esse fator é possível evitar problemas de agrupamentos com grande variação de densidade, onde os grupos são pequenos e muito densos ou grandes e pouco densos.
 
 \subsection{Algoritmo ST-DBSCAN}
-Uma grande diferença entre o DBSCAN e o ST-DBSCAN é a utilização de um segundo parâmetro EPS, onde é usado para medir a similaridade de valores não espaciais, que para esta pesquisa o tempo. Para dois pontos serem considerados vizinhos eles devem respeitar os limites de espaço e tempo parametrizados por EPS1 e EPS2.
+Uma grande diferença entre o DBSCAN e o ST-DBSCAN é a utilização de um segundo parâmetro EPS, onde é usado para medir a similaridade de valores não espaciais. Nesta pesquisa usa-se o tempo como EPS de valor não espacial. Para dois pontos serem considerados vizinhos eles devem respeitar os limites de espaço e tempo parametrizados por EPS1 e EPS2.
 
 \begin{enumerate}
 	\item O algoritmo começa com o primeiro ponto p no banco de dados D.
@@ -265,7 +265,7 @@ Uma grande diferença entre o DBSCAN e o ST-DBSCAN é a utilização de um segun
 	\item Se o ponto selecionado tiver vizinhos suficientes dentro das distâncias Eps1 e Eps2 - se for um ponto central - então um novo cluster será construído.
 	\item Todos os vizinhos diretamente atingíveis por densidade desse ponto central também são incluídos.
 	\item O algoritmo reúne iterativamente pontos acessíveis por densidade a partir desse ponto central usando uma pilha.
-	\item Se o objeto não estiver marcado como ruído ou não estiver em um cluster e a diferença entre o valor médio do cluster e o novo valor é menor do que o valor limite para incluir em um cluster ${\Delta E}$ , ele é colocado no cluster atual.
+	\item Se o objeto não estiver marcado como ruído ou não estiver em um cluster e a diferença entre o valor médio do cluster e o novo valor é menor do que o valor limite para incluir em um cluster, ${\Delta E}$, ele é colocado no cluster atual.
 	\item Se dois clusters ${C_1}$ e ${C_2}$ estão muito próximos um do outro, um ponto p pode pertencer a ambos ${C_1}$ e ${C_2}$. Então o ponto p é atribuído ao cluster que foi descoberto primeiro.
 	\item Depois de processar o ponto selecionado, o algoritmo seleciona o próximo ponto em D e o algoritmo continua iterativamente até que todos os pontos tenham sido processados.
 \end{enumerate}
@@ -305,6 +305,12 @@ Uma grande diferença entre o DBSCAN e o ST-DBSCAN é a utilização de um segun
 	}
 \end{algorithm}
 
+\subsection{Agrupamento de dados baseado em predição}
+A previsão é bem diferente do objetivo final da mineração de dados temporais. É por causa dessa importante e íntima relação com a mineração de dados que um capítulo inteiro é dedicado ao assunto da previsão temporal. Tem uma variedade de aplicações em áreas tão diversas como previsão financeira, meteorologia, sismologia e detecção de doenças médicas. Por exemplo, uma empresa está interessada em prever seu preço médio de fechamento para o próximo mês. Em outro exemplo, um médico gostaria de prever a reação de seus pacientes a um novo medicamento para diabetes, particularmente a duração dos episódios de hipoglicemia. O primeiro exemplo se enquadra na área de previsão de séries temporais, também conhecida como previsão de séries temporais. Observe que os termos prediction and forecasting serão usados de maneira intercambiável no restante do capítulo. O segundo exemplo cai na área de previsão de eventos. As diferenças entre previsão de séries temporais e predição de eventos são resumidas abaixo:
+
+Problema: Na previsão de séries temporais univariadas, o problema é prever o valor de uma variável em um múltiplo de um intervalo de tempo. Por exemplo, uma empresa gostaria de prever suas vendas para o próximo mês. Na previsão de eventos, gostaríamos de prever a ocorrência de um evento ou o número de ocorrências de um evento ou a duração de um evento, dada a existência de certas condições. Por exemplo, um médico acaba de colocar um de seus pacientes epilépticos em uma nova droga que é muito eficaz, mas após o início da terapia pode causar um grave ataque de enxaqueca. O médico gostaria de prever a duração desse ataque, considerando o conhecimento sobre a idade do paciente e o número e duração dos ataques epilépticos no último ano. Neste livro, examinaremos apenas problemas de previsão de eventos que lidam com a previsão da duração de um evento. A razão é que a duração de um evento pode ser modelada usando uma variável contínua e podemos usar a regressão linear para sua previsão, onde a regressão linear é um dos métodos de regressão mais amplamente disponíveis. A previsão da ocorrência de um evento pode ser modelada com uma variável dicotômica categórica e o tipo apropriado de regressão é a regressão logística [Fel09]. A previsão do número de ocorrências de um evento pode ser modelada com uma variável de contagem e o tipo apropriado de regressão é a regressão de Poisson [Orm09].
+
+Dados: Na previsão de séries temporais, os dados são dados históricos obtidos em intervalos de tempo regulares. Informações sobre padrões passados podem ser usadas para prever padrões futuros. Por exemplo, no exemplo da empresa, os dados podem ser vendas dos últimos 12 meses. Na previsão de eventos, os dados são dados populacionais sobre variáveis relacionadas à ocorrência de um evento ou uma série de eventos. No exemplo da enxaqueca, os dados poderiam ser a duração dos ataques de enxaqueca de outros pacientes sobre a droga, juntamente com informações sobre suas idades, condições médicas preexistentes e gravidade da epilepsia.
 
 \section{Redes dinâmicas}
  \label{redes-dinamicas} 
