@@ -131,12 +131,12 @@ Este algoritmo calcula a densidade de uma região contando quantos pontos existe
 Para entender o método é necessário conhecer alguns conceitos básicos do algoritmo: 
 
 \begin{enumerate}
-	\item Vizinhança: Determinada pela função de distância, que pode ser euclidiana, manhattan, etc.
+	\item Vizinhança: Determinada pela função de distância, que pode ser distância euclidiana ou distância manhattan, para dois pontos ${p}$ e ${q}$, dado por ${dist(p,q)}$.
 	\item Eps: raio ao redor de um ponto. 
 	\item Vizinhança Eps: a vizinhança de um ponto ${p}$ com raio Eps, dado por ${N_{Eps}(p)}$, é definido por ${N_{Eps}(p) = \big\{ q \in D | dist(p, q)  \leqslant Eps\big\} }$. Na figura \ref{fig:epsViz} abaixo os círculos representam respectivamente a vizinhança Eps dos pontos ${q}$ e ${p}$.
 	\item Ponto Central: Se o Eps-vizinhança de um ponto ${p}$ contém ao menos um número mínimo, MinPts, de pontos, então o ponto ${p}$ é chamado de ponto central.
 	Por exemplo, na figura \ref{fig:epsViz}, se adotarmos MinPts = 4, p é um ponto central e os demais não são pontos centrais.
-	\item ponto de borda: Se a vizinhança Eps de um ponto ${p}$ contém algum ponto central e menos que MinPts então o ponto ${p}$ é chamado de ponto de borda. Na figura  \ref{fig:epsViz}, q, r e s são pontos de borda.
+	\item Ponto de Borda: Se a vizinhança Eps de um ponto ${p}$ contém algum ponto central e menos que MinPts então o ponto ${p}$ é chamado de ponto de borda. Na figura  \ref{fig:epsViz}, q, r e s são pontos de borda.
 	\item Diretamente alcançável: um ponto ${p}$ é alcançável se ele está na vizinhança Eps de ${q}$ e este é um ponto central.
 	\item Maximalidade: um ponto ${p}$ é alcançável se existe uma cadeia de pontos que os liga, que respeita Eps e MinPts.
 	\item Conectividade: Um ponto ${p}$ está conectado a um outro ${q}$ se existe um objeto ${o}$ tal que tanto ${p}$ quanto ${q}$ são alcançáveis a partir de ${o}$, com respeito a Eps e MinPts. Logo é uma relação simétrica.
@@ -223,28 +223,89 @@ Para agrupar os pontos levando em conta o fator tempo é necessário uma altera�
 
 \section{Método ST-DBSCAN}
 \label{stdbscan}
-% Spatial- Temporal Density Based Clustering (ST-DBSCAN)
 
-\iffalse
-6.1. Introdução
+% Comentar um bloco de código: \iffalse \fi
+O algoritmo DBSCAN usa apenas um parâmetro de distância Eps para medir a similaridade de dados espaciais com uma dimensão. A fim de suportar dados espaciais bidimensionais, propomos duas métricas de distância, Eps1 e Eps2, para definir a similaridade por uma conjunção de dois testes de densidade.
+O algoritmo ST-DBSCAN é construído modificando o algoritmo DBSCAN \cite{ESTER1998}. Em contraste com o algoritmo de agrupamento baseado em densidade existente, o algoritmo ST-DBSCAN \cite{Birant2007STDBSCANAA} tem a capacidade de descobrir clusters de acordo com valores não espaciais, espaciais e temporais dos objetos. As três modificações feitas no algoritmo DBSCAN são as seguintes:
+\begin{itemize}
+\item Permitir o algoritmo ST-DBSCAN descobrir grupos em dados espaciais-temporais.
+\item Introdução do fator de densidade atribuído a cada cluster, que é o seu grau de densidade,
+para encontrar objetos de ruído quando existem clusters de diferentes densidades.
+\item A terceira modificação fornece uma comparação do valor médio de um cluster com o novo valor resultante. Necessária para resolver os conflitos em pontos de borda.
+\end{itemize}
 
-O algoritmo ST-DBSCAN é construído modificando o algoritmo DBSCAN [7]. Em contraste com o algoritmo de agrupamento baseado em densidade existente, o algoritmo ST-DBSCAN [12] tem a capacidade de descobrir clusters em relação aos valores não espaciais, espaciais e temporais dos objetos. As três modificações feitas no algoritmo DBSCAN são as seguintes,
+O algoritmo DBSCAN não é satisfatório quando existem clusters de diferentes densidades. Para superar esse problema,  o ST-DBSCAN atribui a cada cluster um fator de densidade, que é o grau da densidade do cluster.
+A função DensityDistance é dada por:
 
-(i) O algoritmo ST-DBSCAN pode agrupar dados espaciais-temporais de acordo com atributos não espaciais, espaciais e temporais.
-(ii) DBSCAN não detecta pontos de ruído quando é de densidade variada, mas isso o algoritmo supera esse problema ao atribuir o fator de densidade a cada cluster.
-(iii) Para resolver os conflitos em objetos de borda, ele compara o valor médio de um cluster com o novo valor que vem.
+${DensityDistance = \frac{DensityDistanceMax}{DensityDistanceMin}}$
+\linebreak
+onde DensityDistanceMax de um objeto ${p}$ denota a distância máxima entre o objeto ${p}$ e seus vizinhos dentro do raio Eps. Da mesma forma, DensityDistanceMin de um objeto ${p}$ denota a distância mínima entre o objeto ${p}$ e seus vizinhos dentro do raio Eps.
 
-6.2. Descrição do Algoritmo
-O algoritmo começa com o primeiro ponto p no banco de dados D.
-(i) Este ponto p é processado de acordo com o algoritmo DBSCAN e o próximo ponto é tomado.
-(ii) A função RetrieveNeighbors (objeto, Ep1, Ep2) recupera todos os objetos densidade-acessível do objeto selecionado em relação a Eps1, Eps2 e Minpts. Se os pontos devolvidos no Eps-neighborhood são menores do que Minpts, o objeto é atribuído como ruído.
-(iii) Os pontos marcados como ruído podem ser alterados posteriormente, e os pontos não são diretamente acessíveis, mas serão densidade-acessível.
-…
-(iv) Se o ponto selecionado for um objeto central, um novo cluster será construído. Então, todos os vizinhos de densidade direta de este núcleo de objetos também estão incluídos.
-(v) Então, o algoritmo coleta de forma iterativa objetos atingidos pela densidade do objeto do núcleo usando a pilha.
-(vi) Se o objeto não estiver marcado como ruído ou não estiver em um cluster e a diferença
-entre o valor médio do cluster e o novo valor é menor do que DeltaE, ele é colocado no cluster atual.
-\fi
+${DensityDistanceMax(p) = max\big\{ dist(p, q) | q \in D \wedge dist(p, q)  \leqslant Eps\big\} }$
+
+${DensityDistanceMin(p) = min\big\{ dist(p, q) | q \in D \wedge dist(p, q)  \leqslant Eps\big\} }$
+\linebreak
+
+O fator de densidade de um cluster ${C}$ é dado por:
+
+${DensityFactor(C) = 1\big/\left [   \frac{\sum_{p\in C}DensityDistance(p)}{|C|} \right ]
+}$
+\linebreak
+
+Com esse fator é possível evitar problemas de agrupamentos com grande variação de densidade, onde os grupos são pequenos e muito densos ou grandes e pouco densos.
+
+\subsection{Algoritmo ST-DBSCAN}
+Uma grande diferença entre o DBSCAN e o ST-DBSCAN é a utilização de um segundo parâmetro EPS, onde é usado para medir a similaridade de valores não espaciais, que para esta pesquisa o tempo. Para dois pontos serem considerados vizinhos eles devem respeitar os limites de espaço e tempo parametrizados por EPS1 e EPS2.
+
+\begin{enumerate}
+	\item O algoritmo começa com o primeiro ponto p no banco de dados D.
+	\item Este ponto p é processado de acordo com o algoritmo DBSCAN e o próximo ponto é tomado.
+	\item A função BuscarVizinhos(p, Ep1, Ep2) recupera todos os pontos que tem uma distância menor que Eps1 e Eps2 para o ponto ${p}$. Se os pontos recuperados não podem ser alcançados o ponto é atribuído como ruído, onde o ponto selecionado não tem vizinhos suficientes para ser armazenado em cluster.
+	\item Os pontos marcados como ruído podem ser alterados posteriormente, se não forem diretamente alcançáveis pela densidade, mas eles são alcançáveis por densidade de algum outro ponto do banco de dados. Isso acontece para pontos de borda de um cluster.
+	\item Se o ponto selecionado tiver vizinhos suficientes dentro das distâncias Eps1 e Eps2 - se for um ponto central - então um novo cluster será construído.
+	\item Todos os vizinhos diretamente atingíveis por densidade desse ponto central também são incluídos.
+	\item O algoritmo reúne iterativamente pontos acessíveis por densidade a partir desse ponto central usando uma pilha.
+	\item Se o objeto não estiver marcado como ruído ou não estiver em um cluster e a diferença entre o valor médio do cluster e o novo valor é menor do que o valor limite para incluir em um cluster ${\Delta E}$ , ele é colocado no cluster atual.
+	\item Se dois clusters ${C_1}$ e ${C_2}$ estão muito próximos um do outro, um ponto p pode pertencer a ambos ${C_1}$ e ${C_2}$. Então o ponto p é atribuído ao cluster que foi descoberto primeiro.
+	\item Depois de processar o ponto selecionado, o algoritmo seleciona o próximo ponto em D e o algoritmo continua iterativamente até que todos os pontos tenham sido processados.
+\end{enumerate}
+
+\pagebreak
+\begin{algorithm}[h!]
+	\SetSpacedAlgorithm
+	\caption{\label{alg:algoritmo_stdbscan}Algoritmo ST-DBScan}
+	\Entrada{D, Eps1, Eps2, MinPts, ${\Delta E}$}
+	\Saida{C = (${C_1}$, ${C_2}$, ... ${C_k}$) Conjunto de clusters}
+	\Inicio{
+		\Para{i = 1 até n}{
+			\Se {${o_i}$ não está no cluster}{
+				Vizinhos = BuscarVizinhos(${o_i}$, Eps1, Eps2)\;
+				\Se {|Vizinhos| < MinPts}{
+					marcar p como ruído\;
+				}
+			   \Senao{
+			   		\Para{j = 1 até |Vizinhos|}{
+			   			RotularPontos(${X_j}$)\;
+			   			AdicionarPontosAoCluster(${X_j}$, ${C_i}$)\;
+			   		}
+		   		\Enqto{existir pontos na vizinhança de ${o_i}$}{
+		   			pontoAtual = vizinho(${o_i}$)\;
+		   			Vizinhos2 = BuscarVizinhos(pontoAtual, Eps1, Eps2)\;
+		   			\Se{|Y| >= MinPts}{
+		   				\Para{ todo ${o_y}$}{
+		   					\Se{(${\neg}$ehRuido(${o_y}$) ${\vee}$ ${\neg}$estaNumGrupo(${o_y}$)) ${\wedge}$ DensidadeMediaDoGrupo($C_i$) +${o_y}$ > ${\Delta E}$ }{
+		   						AdicionarPontosAoCluster(${o_y}$, ${C_i}$)\;
+		   					}
+		   				}
+		   			}
+		   		}
+		       }
+			}
+		}
+	}
+\end{algorithm}
+
+
 \section{Redes dinâmicas}
  \label{redes-dinamicas} 
 \subsection{O modelo Dynagraph}
