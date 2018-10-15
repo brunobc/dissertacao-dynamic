@@ -2,19 +2,19 @@
 \chapter{Conceitos e revisão bibliográfica}
 \label{cap:estadodaarte}
 
-Uma visão geral sobre agrupamentos é apresentada na seção \ref{agrupamentos}. Na seção \ref{dbscan} apresentamos o algoritmo DBSCAN em detalhes e suas características. A seção \ref{stdbscan} apresenta o ST-DBSCAN, que é utilizada nesse trabalho para auxlliar os métodos de previsão dinâmica. Na seção  \ref{redes-dinamicas}  discutimos redes dinâmicas, exibimos o modelo DYNAGRAPH e um editor de características. A seção  \ref{trabalhos-relacionados}  define e apresenta os trabalhos relacionados ao problema de agrupamentos dinâmicos.
+Uma visão geral sobre agrupamentos é apresentada na seção \ref{agrupamentos}. Na seção \ref{dbscan} apresentamos o algoritmo DBSCAN em detalhes e suas características. A seção \ref{stdbscan} apresenta o ST-DBSCAN, que é utilizada nesse trabalho para auxiliar os métodos de previsão dinâmica. Na seção  \ref{redes-dinamicas}  discutimos redes dinâmicas, exibimos o modelo DYNAGRAPH e um editor de características. A seção  \ref{trabalhos-relacionados}  define e apresenta os trabalhos relacionados ao problema de agrupamentos dinâmicos.
 
 
 \section{Agrupamentos}
 \label{agrupamentos}
 
-A técnica de agrupamento, também chamada de clustering, é uma das técnicas de mineração de dados mais comuns e é usada para descobrir padrões de distribuição nos dados. O agrupamento é feito com base na similaridade das características e na posição dos objetos. Dessa maneira, o objetivo é que objetos de mesmo grupo sejam muito similares entre si e muito diferentes dos objetos de outros grupos.
+A técnica de agrupamento, também chamada de clustering, é uma das técnicas de mineração de dados mais comuns e é usada para descobrir padrões de distribuição nos dados. O agrupamento é feito com base na similaridade das características e na posição dos objetos. Dessa maneira, o objetivo é que os objetos do mesmo grupo sejam muito similares entre si e muito diferentes dos objetos de outros grupos.
 
 Essa técnica é muito utilizada para dados estáticos. No entanto, há pouco trabalho no âmbito espaço-temporal onde os dados estão na forma de campos espaço-temporais contínuos e os agrupamentos são dinâmicos. Além disso, os dados espaço-temporais originados por satélites em órbita terrestre, telefones celulares e outros sensores tendem a ser ruidosos, incompletos e heterogêneos, tornando sua análise especialmente desafiadora \cite{faghmous2013}.
 
 Agrupamentos dinâmicos podem mudar seu tamanho, forma, localização e propriedades estatísticas de um único passo para o próximo. Embora os agrupamentos possam se mover ou mudar de forma, existem vários pontos que não alteram as associações de grupos por um período de tempo. Tendo isso em vista é possível extrair de forma autônoma agrupamentos dinâmicos em dados espaço-temporais contínuos que podem conter valores, ruídos ou características muito variáveis.
 
-Os métodos mais tradicionais são os particionais e os hierárquicos. Alguns algoritmos de agrupamento integram as idéias de vários outros, logo é difícil classificar um algoritmo pertencendo a somente uma categoria de método de agrupamento. Além do que, algumas aplicações podem ter critérios que necessitam a integração de várias técnicas de agrupamento.  Os principais métodos de agrupamento existentes na literatura podem ser categorizados, como mostra as próximas sessões.
+Os métodos mais tradicionais são os particionais e os hierárquicos. Alguns algoritmos de agrupamento integram as idéias de vários outros, logo é difícil classificar um algoritmo pertencendo a somente uma categoria de método de agrupamento. Além do que, algumas aplicações podem ter critérios que necessitam a integração de várias técnicas de agrupamento.  Os principais métodos de agrupamento existentes na literatura podem ser categorizados, como mostram as próximas sessões.
 
 \subsection{Métodos baseados em particionamento}
 A ideia principal desta classe de algoritmos de agrupamentos é criar ${K}$ grupos dos dados, onde ${K}$ é inserido pelo usuário.
@@ -48,11 +48,11 @@ O processo geral para o algoritmo é o seguinte:
  	\item Escolher aleatoriamente ${k}$ objetos como os medoids iniciais.
  	\item Atribuir cada um dos objetos restantes ao grupo que possui o medoid mais próximo.
  	\item Em um grupo, selecionar aleatoriamente um objeto que não seja medoid (${nonmedoid}$), que será referenciado como ${O_{nonmedoid}}$.
- 	\item Calcular o custo de substituir o medoid com ${O_{nonmedoid}}$. Este custo é a diferença no erro quadrado se o medoid atual for substituído por ${O_{nonmedoid}}$. Se for negativo, faça ${O_{nonmedoid}}$ o medoid do grupo. O erro quadrático é novamente a somado erro de todos os objetos:
+ 	\item Calcular o custo de substituir o medoid com ${O_{nonmedoid}}$. Este custo é a diferença no erro quadrado se o medoid atual for substituído por ${O_{nonmedoid}}$. Se for negativo, faça ${O_{nonmedoid}}$ o medoid do grupo. O erro quadrático é novamente somado ao erro de todos os objetos:
  	\begin{equation}
  	E = \sum_{i=1}^{k}\sum_{o\in C_{i}} |o - O_{medoid(i)}|^{2}
  	\end{equation}
- 	onde ${O_{medoid(i)}}$ é o medoid do grupo ${i^{th}}$.
+ 	onde ${O_{medoid(i)}}$ é o medoid do grupo ${C_{i}}$.
  	\item Repetir a partir do passo 2 até que não haja mudanças. 
  \end{enumerate}
 
@@ -68,7 +68,7 @@ estabelecida.
 
 \subsubsection{O algoritmo BIRCH}
 
-Em \cite{Zhang1996}, BIRCH significa Balanced Iterative Reducing and Clustering using Hierarchies e é um algoritmo usado para agrupamentos em bases de dados muito grandes e é considerado um dos métodos hierárquicos mais utilizados na literatura. As vantagens do BIRCH são as seguintes:
+Em \cite{Zhang1996}, BIRCH significa Balanced Iterative Reducing and Clustering using Hierarchies e é um algoritmo usado para agrupamentos em bases de dados muito grandes. É considerado um dos métodos hierárquicos mais utilizados na literatura. As vantagens do BIRCH são as seguintes:
 
 \begin{itemize}
 	\item BIRCH trabalha de maneira local. Isso é obtido usando medições que indicam a proximidade natural dos pontos, de modo que cada decisão de agrupamento possa ser feita sem verificar todos os pontos de dados ou grupos existentes.
@@ -78,7 +78,7 @@ Em \cite{Zhang1996}, BIRCH significa Balanced Iterative Reducing and Clustering 
 
 Os principais conceitos do BIRCH, que funcionam de maneira incremental, são o Agrupamento por característica(AC) e AC-árvore. Onde AC consiste em todas as informações que precisam ser mantidas sobre um grupo.
 Já AC-árvore é utilizada para representar a hierarquia de grupos.
-O agrupamento acontece essencialmente em duas fases. Na primeira delas, o algoritmo lê o conjunto de dados e constrói uma AC-árvore inicial.  Essa árvore é utilizada para representar a hierarquia dos grupos. Na segunda fase, um algoritmo de agrupamento selecionado é aplicado às folhas da AC-árvore, removendo grupos esparsos e agrupando os mais densos em grupos maiores.
+O agrupamento acontece essencialmente em duas fases. Na primeira delas, o algoritmo lê o conjunto de dados e constrói uma AC-árvore inicial. Essa árvore é utilizada para representar a hierarquia dos grupos. Na segunda fase, um algoritmo de agrupamento selecionado é aplicado às folhas da AC-árvore, removendo grupos esparsos e agrupando os mais densos em grupos maiores.
 
 \subsubsection{O algoritmo CURE}
 
@@ -125,7 +125,7 @@ A possibilidade de encontrar agrupamentos de forma eventual e o fato de não pre
 % TODO DBSCAN KDD96-037
 % TODO O metodo dbscan https://www.maxwell.vrac.puc-rio.br/24787/24787_6.PDF
 
-Este algoritmo calcula a densidade de uma região contando quantos pontos existem em uma determinada área seguindo uma determinada métrica, geralmente uma medida de distância, como a euclidiana ou manhattan. 
+Este método calcula a densidade de uma região contando quantos pontos existem em uma determinada área seguindo uma determinada métrica, geralmente uma medida de distância, como a euclidiana ou manhattan. 
 É um método efetivo para identificar grupos de formato arbitrário e de diferentes tamanhos, separar os ruídos dos dados, requer apenas um parâmetro de entrada, ajuda o usuário na determinação de um valor apropriado para ele e ajuda a detectar grupos e seus arranjos dentro do espaço de dados, sem qualquer informação preliminar sobre os grupos.
 \cite{ESTER1996}  escrevem que a noção de agrupamentos e o algoritmo DBSCAN se aplicam para espaços euclidianos de duas e três dimensões, como para qualquer espaço característico de alta dimensão. O método DBSCAN é aplicável a qualquer base de dados contendo dados de um espaço métrico, isto é, bases de dados com uma função de distância para pares de objetos. Finalmente, o DBSCAN é eficiente mesmo para grandes bancos de dados espaciais.
 Para entender o método é necessário conhecer alguns conceitos básicos do algoritmo: 
@@ -133,11 +133,11 @@ Para entender o método é necessário conhecer alguns conceitos básicos do alg
 \begin{enumerate}
 	\item Vizinhança: Determinada pela função de distância, que pode ser distância euclidiana ou distância manhattan, para dois pontos ${p}$ e ${q}$, dado por ${dist(p,q)}$.
 	\item Eps: raio ao redor de um ponto. 
-	\item Vizinhança Eps: a vizinhança de um ponto ${p}$ com raio Eps, dado por ${N_{Eps}(p)}$, é definido por ${N_{Eps}(p) = \big\{ q \in D | dist(p, q)  \leqslant Eps\big\} }$. Na figura \ref{fig:epsViz} abaixo os círculos representam respectivamente a vizinhança Eps dos pontos ${q}$ e ${p}$.
+	\item Eps-vizinhança: a vizinhança de um ponto ${p}$ com raio Eps, dado por ${N_{Eps}(p)}$, é definido por ${N_{Eps}(p) = \big\{ q \in D | dist(p, q)  \leqslant Eps\big\} }$. Na figura \ref{fig:epsViz} abaixo os círculos representam respectivamente a vizinhança Eps dos pontos ${q}$ e ${p}$.
 	\item Ponto Central: Se o Eps-vizinhança de um ponto ${p}$ contém ao menos um número mínimo, MinPts, de pontos, então o ponto ${p}$ é chamado de ponto central.
-	Por exemplo, na figura \ref{fig:epsViz}, se adotarmos MinPts = 4, p é um ponto central e os demais não são pontos centrais.
-	\item Ponto de Borda: Se a vizinhança Eps de um ponto ${p}$ contém algum ponto central e menos que MinPts então o ponto ${p}$ é chamado de ponto de borda. Na figura  \ref{fig:epsViz}, q, r e s são pontos de borda.
-	\item Diretamente alcançável: um ponto ${p}$ é alcançável se ele está na vizinhança Eps de ${q}$ e este é um ponto central.
+	Por exemplo, na figura \ref{fig:epsViz}, se adotarmos MinPts = 4, ${p}$ é um ponto central e os demais não são pontos centrais.
+	\item Ponto de Borda: Se a Eps-vizinhança de um ponto ${p}$ contém algum ponto central e menos que MinPts então o ponto ${p}$ é chamado de ponto de borda. Na figura  \ref{fig:epsViz}, ${q}$, ${r}$ e ${s}$ são pontos de borda.
+	\item Diretamente alcançável: um ponto ${p}$ é alcançável se ele está no Eps-vizinhança de ${q}$ e este é um ponto central.
 	\item Maximalidade: um ponto ${p}$ é alcançável se existe uma cadeia de pontos que os liga, que respeita Eps e MinPts.
 	\item Conectividade: Um ponto ${p}$ está conectado a um outro ${q}$ se existe um objeto ${o}$ tal que tanto ${p}$ quanto ${q}$ são alcançáveis a partir de ${o}$, com respeito a Eps e MinPts. Logo é uma relação simétrica.
 	\item Cluster: Seja D uma base de dados, um grupo C é um subconjunto não vazio de D, respeitando Eps e MinPts, onde:
@@ -202,22 +202,23 @@ As etapas envolvidas neste algoritmo são as seguintes:
 	\Entrada{Vizinhos, C, MinPts}
 	\Inicio{
 			\Para{i = 0 até número de Vizinhos}{
-				p = ${Vizinhos_{(i)}}$\;
-				\Se {p ainda não foi visitado}{
-					marcar p como visitado\;
+				${p}$ = ${Vizinhos_{(i)}}$\;
+				\Se {${p}$ ainda não foi visitado}{
+					marcar ${p}$ como visitado\;
 					Vizinhos2 = BuscarVizinhos(p)\;
 					
 					\Se {Vizinhos2 ${\geqslant}$ MinPts}{
 						Vizinhos = Vizinhos ${\cup}$ Vizinhos2\;
 					}
 				}
-				\Se{p não está em nenhum cluster}{
-					adicionar p ao cluster C\;
+				\Se{${p}$ não está em nenhum cluster}{
+					adicionar ${p}$ ao cluster C\;
 				}
 				
 			}
 	}
 \end{algorithm}
+
 
 Para agrupar os pontos levando em conta o fator tempo é necessário uma alteração no algoritmo DBScan, e com isso detectar os grupos em relação ao tempo. Logo, o algoritmo determinada para esta implementação foi o ST-DBScan \cite{Birant2007STDBSCANAA}, abordado a seguir.
 
@@ -258,15 +259,15 @@ Com esse fator é possível evitar problemas de agrupamentos com grande variaç�
 Uma grande diferença entre o DBSCAN e o ST-DBSCAN é a utilização de um segundo parâmetro EPS, onde é usado para medir a similaridade de valores não espaciais. Nesta pesquisa usa-se o tempo como EPS de valor não espacial. Para dois pontos serem considerados vizinhos eles devem respeitar os limites de espaço e tempo parametrizados por EPS1 e EPS2.
 
 \begin{enumerate}
-	\item O algoritmo começa com o primeiro ponto p no banco de dados D.
-	\item Este ponto p é processado de acordo com o algoritmo DBSCAN e o próximo ponto é tomado.
+	\item O algoritmo começa com o primeiro ponto ${p}$ no banco de dados D.
+	\item Este ponto ${p}$ é processado de acordo com o algoritmo DBSCAN e o próximo ponto é tomado.
 	\item A função BuscarVizinhos(p, Ep1, Ep2) recupera todos os pontos que tem uma distância menor que Eps1 e Eps2 para o ponto ${p}$. Se os pontos recuperados não podem ser alcançados o ponto é atribuído como ruído, onde o ponto selecionado não tem vizinhos suficientes para ser armazenado em cluster.
 	\item Os pontos marcados como ruído podem ser alterados posteriormente, se não forem diretamente alcançáveis pela densidade, mas eles são alcançáveis por densidade de algum outro ponto do banco de dados. Isso acontece para pontos de borda de um cluster.
 	\item Se o ponto selecionado tiver vizinhos suficientes dentro das distâncias Eps1 e Eps2 - se for um ponto central - então um novo cluster será construído.
 	\item Todos os vizinhos diretamente atingíveis por densidade desse ponto central também são incluídos.
 	\item O algoritmo reúne iterativamente pontos acessíveis por densidade a partir desse ponto central usando uma pilha.
 	\item Se o objeto não estiver marcado como ruído ou não estiver em um cluster e a diferença entre o valor médio do cluster e o novo valor é menor do que o valor limite para incluir em um cluster, ${\Delta E}$, ele é colocado no cluster atual.
-	\item Se dois clusters ${C_1}$ e ${C_2}$ estão muito próximos um do outro, um ponto p pode pertencer a ambos ${C_1}$ e ${C_2}$. Então o ponto p é atribuído ao cluster que foi descoberto primeiro.
+	\item Se dois clusters ${C_1}$ e ${C_2}$ estão muito próximos um do outro, um ponto ${p}$ pode pertencer a ambos ${C_1}$ e ${C_2}$. Então o ponto ${p}$ é atribuído ao cluster que foi descoberto primeiro.
 	\item Depois de processar o ponto selecionado, o algoritmo seleciona o próximo ponto em D e o algoritmo continua iterativamente até que todos os pontos tenham sido processados.
 \end{enumerate}
 
@@ -281,7 +282,7 @@ Uma grande diferença entre o DBSCAN e o ST-DBSCAN é a utilização de um segun
 			\Se {${o_i}$ não está no cluster}{
 				Vizinhos = BuscarVizinhos(${o_i}$, Eps1, Eps2)\;
 				\Se {|Vizinhos| < MinPts}{
-					marcar p como ruído\;
+					marcar ${p}$ como ruído\;
 				}
 			   \Senao{
 			   		\Para{j = 1 até |Vizinhos|}{
@@ -291,7 +292,7 @@ Uma grande diferença entre o DBSCAN e o ST-DBSCAN é a utilização de um segun
 		   		\Enqto{existir pontos na vizinhança de ${o_i}$}{
 		   			pontoAtual = vizinho(${o_i}$)\;
 		   			Vizinhos2 = BuscarVizinhos(pontoAtual, Eps1, Eps2)\;
-		   			\Se{|Y| >= MinPts}{
+		   			\Se{|Vizinhos2| >= MinPts}{
 		   				\Para{ todo ${o_y}$}{
 		   					\Se{(${\neg}$ehRuido(${o_y}$) ${\vee}$ ${\neg}$estaNumGrupo(${o_y}$)) ${\wedge}$ DensidadeMediaDoGrupo($C_i$) +${o_y}$ > ${\Delta E}$ }{
 		   						AdicionarPontosAoCluster(${o_y}$, ${C_i}$)\;
@@ -306,16 +307,165 @@ Uma grande diferença entre o DBSCAN e o ST-DBSCAN é a utilização de um segun
 \end{algorithm}
 
 \subsection{Agrupamento de dados baseado em predição}
-A previsão é bem diferente do objetivo final da mineração de dados temporais. É por causa dessa importante e íntima relação com a mineração de dados que um capítulo inteiro é dedicado ao assunto da previsão temporal. Tem uma variedade de aplicações em áreas tão diversas como previsão financeira, meteorologia, sismologia e detecção de doenças médicas. Por exemplo, uma empresa está interessada em prever seu preço médio de fechamento para o próximo mês. Em outro exemplo, um médico gostaria de prever a reação de seus pacientes a um novo medicamento para diabetes, particularmente a duração dos episódios de hipoglicemia. O primeiro exemplo se enquadra na área de previsão de séries temporais, também conhecida como previsão de séries temporais. Observe que os termos prediction and forecasting serão usados de maneira intercambiável no restante do capítulo. O segundo exemplo cai na área de previsão de eventos. As diferenças entre previsão de séries temporais e predição de eventos são resumidas abaixo:
-
-Problema: Na previsão de séries temporais univariadas, o problema é prever o valor de uma variável em um múltiplo de um intervalo de tempo. Por exemplo, uma empresa gostaria de prever suas vendas para o próximo mês. Na previsão de eventos, gostaríamos de prever a ocorrência de um evento ou o número de ocorrências de um evento ou a duração de um evento, dada a existência de certas condições. Por exemplo, um médico acaba de colocar um de seus pacientes epilépticos em uma nova droga que é muito eficaz, mas após o início da terapia pode causar um grave ataque de enxaqueca. O médico gostaria de prever a duração desse ataque, considerando o conhecimento sobre a idade do paciente e o número e duração dos ataques epilépticos no último ano. Neste livro, examinaremos apenas problemas de previsão de eventos que lidam com a previsão da duração de um evento. A razão é que a duração de um evento pode ser modelada usando uma variável contínua e podemos usar a regressão linear para sua previsão, onde a regressão linear é um dos métodos de regressão mais amplamente disponíveis. A previsão da ocorrência de um evento pode ser modelada com uma variável dicotômica categórica e o tipo apropriado de regressão é a regressão logística [Fel09]. A previsão do número de ocorrências de um evento pode ser modelada com uma variável de contagem e o tipo apropriado de regressão é a regressão de Poisson [Orm09].
-
-Dados: Na previsão de séries temporais, os dados são dados históricos obtidos em intervalos de tempo regulares. Informações sobre padrões passados podem ser usadas para prever padrões futuros. Por exemplo, no exemplo da empresa, os dados podem ser vendas dos últimos 12 meses. Na previsão de eventos, os dados são dados populacionais sobre variáveis relacionadas à ocorrência de um evento ou uma série de eventos. No exemplo da enxaqueca, os dados poderiam ser a duração dos ataques de enxaqueca de outros pacientes sobre a droga, juntamente com informações sobre suas idades, condições médicas preexistentes e gravidade da epilepsia.
+%Temporal Data Mining [Mitsa]
+A tarefa de predição visa descobrir o valor futuro de um determinado atributo de dados. É uma área com variedade de aplicações em diversas áreas como meteorologia e detecção de doenças. Por exemplo, um médico gostaria de prever a reação de seus pacientes a um novo medicamento para diabetes, particularmente a duração dos episódios de hipoglicemia.
+Na previsão de eventos, é desejável prever a ocorrência de um evento ou o número de ocorrências de um evento ou a duração de um evento, dada a existência de certas condições. Por exemplo, um médico acaba de colocar um de seus pacientes epilépticos em uma nova droga que é muito eficaz, mas após o início da terapia pode causar um grave ataque de enxaqueca. O médico gostaria de prever a duração desse ataque, considerando o conhecimento sobre a idade do paciente e o número e duração dos ataques epilépticos no último ano. Nos problemas de previsão de eventos que lidam com a previsão da duração de um evento pode ser modelada usando uma variável contínua e pode-se usar a regressão linear para sua previsão, onde a regressão linear é um dos métodos de regressão mais amplamente disponíveis \cite{Mitsa:2010}.
+Na previsão de séries temporais, os dados são dados históricos obtidos em intervalos de tempo regulares. Informações sobre padrões passados podem ser usadas para prever padrões futuros. No exemplo da enxaqueca, os dados poderiam ser a duração dos ataques de enxaqueca de outros pacientes sobre a droga, juntamente com informações sobre suas idades, condições médicas preexistentes e gravidade da epilepsia.
 
 \section{Redes dinâmicas}
  \label{redes-dinamicas} 
 \subsection{O modelo Dynagraph}
+
 \subsection{Editor de características}
+O Editor de Características é uma extensão do software DYNAGRAPH, que permite alterar os atributos visuais dos vértices e aresta de um grafo dinâmico.
+Com ele podemos criar novos tipos de dados e com isso diferenciar, por exemplo, focos de casos de dengue e tipos de dengue.
+Essa extensão permite criar com os seguintes atributos: Rótulo, Opacidade, Escala, Espessura da Borda, Cor da Borda e Cor de Preenchimento. Outra opção é utilizar uma imagem.
+ 
+A figura \ref{fig:edCaMenu} exibe a localização do Editor de Características na aplicação em um menu lateral com as seguinte opções: Vértice, Aresta e um painel, este exibe a data atual e número de vértices e arestas em análise.
+\begin{figure}[!h]
+	\centering	
+	\Caption{\label{fig:edCaMenu} Editor de Características: menu lateral}
+	\UECEfig{}{
+		\includegraphics[width=15cm]{figuras/editorCaract/edCaractMenu.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+Para criar um novo vértice deve-se selecionar o submenu relacionado a vértices como mostra a figura \ref{fig:edCaCriacao1}.
+\begin{figure}[!h]
+	\centering	
+	\Caption{\label{fig:edCaCriacao1} Editor de Características: criação de um vértice}	
+	\UECEfig{}{
+		\includegraphics[width=15cm]{figuras/editorCaract/1edCaractCreateVertice.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+A figura \ref{fig:edCaCriacao2} exibe os tipos de dados permitidos na criação ou edição de um vértice.
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:edCaCriacao2} Editor de Características: criação de um vértice - tipos de dados}	
+	\UECEfig{}{
+		\includegraphics[width=15cm]{figuras/editorCaract/2edCaractCreateVertice.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+Após criar um novo tipo de vértice podemos usá-lo editando um dado ponto no mapa, como mostram as figuras \ref{fig:edCaChangeV1} e \ref{fig:edCaChangeV2}.
+A figura \ref{fig:edCaShowV} exibe o resultado esperado.
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:edCaChangeV1} Editor de Características: edição de um vértice - parte 1}	
+	\UECEfig{}{
+		\includegraphics[width=15cm]{figuras/editorCaract/3edCaractChangeVertice.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:edCaChangeV2} Editor de Características: edição de um vértice - parte 2}	
+	\UECEfig{}{
+		\includegraphics[width=15cm]{figuras/editorCaract/4edCaractChangeVertice.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:edCaShowV} Editor de Características: edição de um vértice - parte 3}	
+	\UECEfig{}{
+		\includegraphics[width=15cm]{figuras/editorCaract/5edCaractShowVertice.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+Para editar um tipo de vértice basta selecioná-lo a partir da lista de tipos de vértices e então aplicar as mudanças, como mostra a figura \ref{fig:edCaEditV1} e o resultado na figura \ref{fig:edCaEditV2}.
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:edCaEditV1} Editor de Características: edição de um tipo de vértice - parte 1}	
+	\UECEfig{}{
+		\includegraphics[width=15cm]{figuras/editorCaract/6edCaractEditVertice.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:edCaEditV2} Editor de Características: edição de um tipo de vértice - parte 2}	
+	\UECEfig{}{
+		\includegraphics[width=15cm]{figuras/editorCaract/7edCaractEditedVertice.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+Outra opção de edição de um vértice é dado na figura \ref{fig:edCaractEditVerticeOption2}. Nesta opção podemos usar uma imagem pronta.
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:edCaractEditVerticeOption2} Editor de Características: Tipo de vértice}	
+	\UECEfig{}{
+		\includegraphics[width=15cm]{figuras/editorCaract/edCaractEditVerticeOption2.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+O Editor de Características permite também a criação e edição de arestas (figura \ref{fig:edCaractAresta}), mas essa funcionalidade não foi necessária nesta pesquisa.
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:edCaractAresta} Editor de Características: Aresta}	
+	\UECEfig{}{
+		\includegraphics[width=15cm]{figuras/editorCaract/edCaractAresta.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+\subsection{Visualização dos grupos formados}
+Foram usados dois algoritmos para permitir a visualização dos grupos formados em um dado tempo.
+O primeiro é uma biblioteca da API do Google chamada MarkerClusterer \cite{markerCluster} que cria e gerencia grupos de acordo com o nível de zoom para grandes quantidades de pontos.
+Essa biblioteca é combinada com a API Javascript do Google Maps para agrupar os pontos por proximidade em grupos e simplificar a exibição dos pontos no mapa.
+De acordo com o nível de zoom os grupos são formados com cores e tamanhos diferentes, como mostra as figuras \ref{fig:apiGoogleMaps1} e \ref{fig:apiGoogleMaps2}.
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:apiGoogleMaps1} Grupos - API Google Maps parte 1}	
+	\UECEfig{}{
+		\includegraphics[width=14cm]{figuras/ClusterAPIGoogle1.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:apiGoogleMaps2} Grupos - API Google Maps parte 2}	
+	\UECEfig{}{
+		\includegraphics[width=14cm]{figuras/ClusterAPIGoogle2.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+\pagebreak
 \section{Trabalhos Relacionados}
  \label{trabalhos-relacionados} 
 Como há uma carência de estudos relacionando os assuntos abordados: agrupamento,
