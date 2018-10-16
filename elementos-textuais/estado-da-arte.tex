@@ -313,8 +313,12 @@ Na previsão de eventos, é desejável prever a ocorrência de um evento ou o n�
 Na previsão de séries temporais, os dados são dados históricos obtidos em intervalos de tempo regulares. Informações sobre padrões passados podem ser usadas para prever padrões futuros. No exemplo da enxaqueca, os dados poderiam ser a duração dos ataques de enxaqueca de outros pacientes sobre a droga, juntamente com informações sobre suas idades, condições médicas preexistentes e gravidade da epilepsia.
 
 \section{Redes dinâmicas}
- \label{redes-dinamicas} 
+ \label{redes-dinamicas}
+ Para redes dinâmicas, o foco é tipicamente em uma classe de redes e questões referentes às estrutura dessa classe de rede, como a estrutura evoluiu e como isso afeta sistemas dinâmicos na rede. As redes temporais normalmente são mais orientadas a dados - onde se investiga um conjunto de dados, suas estruturas e como, por exemplo, surtos epidêmicos se comportariam sobre ele. Em seguida, é questionado como essas observações se generalizam comparando os resultados para diferentes conjuntos de dados \cite{holme:colloquium}.
+ 
 \subsection{O modelo Dynagraph}
+
+O Dynagraph \cite{dynagraph} é um modelo computacional que permite, a partir de uma estrutura de dados simples, modelo de um Grafo ou Rede Dinâmica, representar com o mínimo custo de armazenamento a evolução de uma instância de observação e estudos. Ele acompanha a evolução dos conjuntos de um grafo: de nós e ligações (arcos e elos), como inserção/retirada ao longo do tempo, e mudança de suas características (posição, cor, forma, tamanho, e outras), por meio de um editor de características, apresentado na próxima subseção.
 
 \subsection{Editor de características}
 O Editor de Características é uma extensão do software DYNAGRAPH, que permite alterar os atributos visuais dos vértices e aresta de um grafo dinâmico.
@@ -447,7 +451,7 @@ De acordo com o nível de zoom os grupos são formados com cores e tamanhos dife
 	\centering	
 	\Caption{\label{fig:apiGoogleMaps1} Grupos - API Google Maps parte 1}	
 	\UECEfig{}{
-		\includegraphics[width=14cm]{figuras/ClusterAPIGoogle1.png}
+		\includegraphics[width=13cm]{figuras/ClusterAPIGoogle1.png}
 	}{
 		\Fonte{Elaborado pelo autor}
 	}
@@ -458,7 +462,32 @@ De acordo com o nível de zoom os grupos são formados com cores e tamanhos dife
 	\centering	
 	\Caption{\label{fig:apiGoogleMaps2} Grupos - API Google Maps parte 2}	
 	\UECEfig{}{
-		\includegraphics[width=14cm]{figuras/ClusterAPIGoogle2.png}
+		\includegraphics[width=13cm]{figuras/ClusterAPIGoogle2.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+
+O segundo algoritmo é conhecido como Convex Hull \cite{ConvexHull}. Também conhecido como fecho convexo onde, dado um conjunto de pontos em um espaço,
+o problema consiste em encontrar o menor número de pontos que gerem um polígono convexo no qual abranja todos os outros pontos.
+As figuras \ref{fig:algConvexHull1} e \ref{fig:algConvexHull2} são exemplos do convex hull, onde cada polígono representa o grupo de casos de dengue naquela região delimitada. Dos vários pontos, somente os pontos mais externos e que formam o menor polígono que englobam todos os outros pontos.
+%
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:algConvexHull1} Exemplo 1 de Convex Hull}	
+	\UECEfig{}{
+		\includegraphics[width=14cm]{figuras/algConvexHull1.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:algConvexHull2} Exemplo 2 de Convex Hull}	
+	\UECEfig{}{
+		\includegraphics[width=14cm]{figuras/algConvexHull2.png}
 	}{
 		\Fonte{Elaborado pelo autor}
 	}
