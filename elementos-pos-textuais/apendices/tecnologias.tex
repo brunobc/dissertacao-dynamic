@@ -22,16 +22,43 @@ MongoDB é um banco de dados orientado a documentos que armazena dados em docume
 
 \section{Cliente}
 
-HTML
+%HTML
+O HTML é uma Linguagem de Marcação de Hipertexto (\textit{Hypertext Markup Language}) utilizada para criar páginas web. Ele descreve a estrutura das páginas web usando marcadores (\textit{markup}). Os seus elementos são construídos em blocos de páginas HTML e são representados por \textit{tags}. Tags de HTML marcam partes de conteúdo, como "cabeçalho" (\textit{heading}), "parágrafo" (\textit{paragraph}), "tabela" (\textit{table}) e assim por diante. Os navegadores não exibem as tags HTML, mas as usam para renderizar o conteúdo da página \cite{html}.
 
-CSS
+%CSS
+ Junto ao HTML temos o CSS (\textit{Cascading Style Sheets}), que é uma linguagem que descreve o estilo (\textit{style}) de um documento HTML. Além disso, ele descreve como os elementos HTML devem ser exibidos. Uma das vantagens em utilizar o CSS é controlar o \textit{layout} de múltiplas páginas web ao mesmo tempo. Ele é projetado para permitir a separação de apresentação e conteúdo, incluindo layout, cores e fontes. Essa separação pode melhorar a acessibilidade de conteúdo, fornecer mais flexibilidade e controle na especificação de características de apresentação e reduzir a complexidade e a repetição no conteúdo estrutural \cite{css}.
 
-Javascript, a versão utilizada foi o EcmaScript 6 
+%Javascript
+O JavaScript é uma linguagem de programação interpretada, frequentemente abreviado como JS, de alto nível, caracterizada como dinâmica, fracamente tipada, baseada em protótipos, de tipagem fraca.
+O ECMAScript é uma linguagem de programação baseada em scripts, padronizada pela Ecma International na especificação ECMA-262. A linguagem é bastante usada em tecnologias para Internet, sendo esta base para a criação do JavaScript. A versão utilizada do ECMAScript para esta pesquisa foi a ECMAScript 6 ou ECMAScript2015 \cite{ecma2015}.
 
-AngularJS
+%JSON
+Outro recurso associado ao \textit{frontend} é o JSON (\textit{JavaScript Object Notation}), que é um formato “leve” para troca de informações. Ele é baseado em um subconjunto da linguagem de programação JavaScript  \cite{json} e também em dois tipos de estruturas: Coleção de pares chave/valor e lista ordenada de valores. As coleções de chave e valor são equivalentes a record, struct, dictionary, hash e map nas linguagens. As listas são equivalentes a array, vector ou list.
+Um objeto é um conjunto não ordenado de pares nome/valor. Um objeto começa com { (chave esquerda) e termina com } (chave direita). Cada nome é seguido por : (dois pontos) e os pares nome/valor são separados por , (vírgula).
 
-Dynagraph
+%AngularJS
+O Editor de Características foi incorporado ao Dynagraph após a sua conclusão, e o seu desenvolvimento foi realizado utilizando principalmente o framework AngularJS \cite{angularjs}.
+Este permite construir aplicações web dinâmicas e estender a sintaxe do HTML, e com isso simplifica o código e permite uma estrutura componentizada. A ligação de dados e a injeção de dependência do AngularJS eliminam grande parte do código que seria necessário escrever.
+Seu principal padrão arquitetural é o MVC (\textit{Model View Controller}):
+\begin{itemize}
+	\item Modelo (\textit{Model}): são as propriedades de um escopo; escopos são anexados ao DOM onde as propriedades do escopo são acessadas por meio de ligações.
+	\item Visão (\textit{View}): O \textit{template} (HTML com ligações de dados) que é renderizado na Visão.
+	\item Controlador (\textit{Controller}): é a classe que contém a lógica de negócios por trás do aplicativo.
+\end{itemize}
+
+
+Dynagraph (HTML 5)
 
 \section{Arquitetura do Softwate}
+A princípio o MongoDB foi utilizado para armazenar os dados salvos do \cite{simda}, a respeito da dengue e chikungunya. O cliente requisita os dados do servidor, que por sua vez processa as informações, seguindo a estrutura de dados do Dynagraph. Em seguida, esses dados processados são passados para a aplicação no cliente. Com os dados exibidos no browser podemos editá-los, gerar agrupamentos e finalmente salvar as informações em um arquivo no formato JSON.
 
-(TODO - Criar imagem da arquitetura)
+\begin{figure}[h]
+	\centering	
+	\Caption{\label{fig:arqsoft} Arquitetura do Softwate}	
+	\UECEfig{}{
+		\includegraphics[width=14cm]{figuras/apendice/dissertacaoArquitetura.png}
+	}{
+		\Fonte{Elaborado pelo autor}
+	}
+\end{figure}
+\FloatBarrier
