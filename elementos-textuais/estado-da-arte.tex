@@ -8,7 +8,7 @@ Uma visão geral sobre agrupamentos é apresentada na seção \ref{agrupamentos}
 \section{Agrupamentos}
 \label{agrupamentos}
 
-A técnica de agrupamento, também chamada de clustering, é uma das técnicas de mineração de dados mais comuns e é usada para descobrir padrões de distribuição nos dados. O agrupamento é feito com base na similaridade das características e na posição dos objetos. Dessa maneira, o objetivo é que os objetos do mesmo grupo sejam muito similares entre si e muito diferentes dos objetos de outros grupos.
+A técnica de agrupamento, também chamada de \textit{clustering}, é uma das técnicas de mineração de dados mais comuns e é usada para descobrir padrões de distribuição nos dados. O agrupamento é feito com base na similaridade das características e na posição dos objetos. Dessa maneira, o objetivo é que os objetos do mesmo grupo sejam muito similares entre si e muito diferentes dos objetos de outros grupos.
 
 Essa técnica é muito utilizada para dados estáticos. No entanto, há pouco trabalho no âmbito espaço-temporal onde os dados estão na forma de campos espaço-temporais contínuos e os agrupamentos são dinâmicos. Além disso, os dados espaço-temporais originados por satélites em órbita terrestre, telefones celulares e outros sensores tendem a ser ruidosos, incompletos e heterogêneos, tornando sua análise especialmente desafiadora \cite{faghmous2013}.
 
@@ -21,15 +21,15 @@ A ideia principal desta classe de algoritmos de agrupamentos é criar ${K}$ grup
 Esse método consiste em escolher ${K}$ objetos como sendo os centros dos ${K}$ grupos.
 Os objetos são divididos entre os ${K}$ grupos de acordo com algum critério de similaridade
 estabelecido pelo algoritmo, de modo que cada objeto fique no grupo que tem o menor valor de
-distância entre o objeto e o centro dele.
+distância entre o objeto e o centro do grupo a que ele pertence.
 Os algoritmos de particionamento são muito populares devido à sua facilidade de implementação e baixo custo computacional; no entanto, eles têm essas desvantagens: (1) eles são sensíveis à presença de ruído e outliers, (2) eles podem descobrir apenas grupos com formas convexas e (3) o número de grupos precisa ser especificado.
 
 \subsubsection{Agrupamentos K-Médias}
 O algoritmo de agrupamento k-médias é uma das técnicas mais populares dessa abordagem e foi introduzido em \cite{Macqueen67}. Ele utiliza a média dos objetos que são do grupo em questão, também conhecido como centro de gravidade do grupo.  A idéia principal neste algoritmo é usar a média dos objetos para atribuí-los a grupos e também usá-los para  representar estes.
-K-médias é um algoritmo que garante a convergência para um ótimo local, mas não necessariamente um ótimo global. À medida que ${K}$ aumenta, o custo de encontar a solução ótima diminui, e atinge seu mínimo quando ${K}$ é igual ao número de objetos \cite{Wu2008}. Especificamente, o procedimento é mostrado abaixo:
+K-médias é um algoritmo que garante a convergência para um ótimo local, mas não necessariamente um ótimo global. À medida que ${K}$ aumenta, o custo de encontrar a solução ótima diminui, e atinge seu mínimo quando ${K}$ é igual ao número de objetos \cite{Wu2008}. Especificamente, o procedimento é mostrado abaixo:
  \begin{enumerate}
 	\item Inserir os objetos para serem agrupados e também o número ${K}$ de grupos.
-	\item Escolher aleatoriamente os objetos ${K}$ como centro dos grupos originais.
+	\item Escolher aleatoriamente os ${K}$ objetos como centro dos grupos originais.
 	\item Atribuir cada objeto ao grupo com a média mais próxima.
 	\item Calcular a nova média de cada grupo.
 	\item Repetir a partir do passo 3.
@@ -41,6 +41,7 @@ K-médias é um algoritmo que garante a convergência para um ótimo local, mas 
 	 e ${K}$ o número de grupos.
 \end{enumerate}
 
+TODO --- Represente a evolução deste método em figuras.
 \subsubsection{Agrupamentos K-Medoids}
 O algoritmo de K-Medoids foi introduzido primeiramente em \cite{kaufmann1990} e não é tão sensível aos outliers quanto os k-médias. Nesse algoritmo, cada grupo é representado pelo objeto mais próximo ao centro, conhecido como medoid.
 O processo geral para o algoritmo é o seguinte:
@@ -48,13 +49,14 @@ O processo geral para o algoritmo é o seguinte:
  	\item Escolher aleatoriamente ${k}$ objetos como os medoids iniciais.
  	\item Atribuir cada um dos objetos restantes ao grupo que possui o medoid mais próximo.
  	\item Em um grupo, selecionar aleatoriamente um objeto que não seja medoid (${nonmedoid}$), que será referenciado como ${O_{nonmedoid}}$.
- 	\item Calcular o custo de substituir o medoid com ${O_{nonmedoid}}$. Este custo é a diferença no erro quadrado se o medoid atual for substituído por ${O_{nonmedoid}}$. Se for negativo, faça ${O_{nonmedoid}}$ o medoid do grupo. O erro quadrático é novamente somado ao erro de todos os objetos:
+ 	\item Calcular o custo de substituir o medoid com ${O_{nonmedoid}}$. Este custo é a diferença no erro quadrático se o medoid atual for substituído por ${O_{nonmedoid}}$. Se for negativo, faça ${O_{nonmedoid}}$ o medoid do grupo. O erro quadrático é novamente somado ao erro de todos os objetos:
  	\begin{equation}
  	E = \sum_{i=1}^{k}\sum_{o\in C_{i}} |o - O_{medoid(i)}|^{2}
  	\end{equation}
  	onde ${O_{medoid(i)}}$ é o medoid do grupo ${C_{i}}$.
  	\item Repetir a partir do passo 2 até que não haja mudanças. 
  \end{enumerate}
+TODO --- Represente a evolução deste método em figuras.
 
 \subsection{Métodos hierárquicos}
 Nesta classe de algoritmos os objetos são colocados em uma hierarquia que é percorrida de uma forma bottom-up ou top-down para criar os grupos. A vantagem deste tipo de agrupamento é que ele não requer nenhum conhecimento sobre o número de grupos, e sua desvantagem é sua complexidade computacional \cite{Lin2004}. Muitas vezes, uma estrutura em árvore, um dendrograma, é usada para representar os níveis hierárquicos aninhados.
@@ -68,7 +70,7 @@ estabelecida.
 
 \subsubsection{O algoritmo BIRCH}
 
-Em \cite{Zhang1996}, BIRCH significa Balanced Iterative Reducing and Clustering using Hierarchies e é um algoritmo usado para agrupamentos em bases de dados muito grandes. É considerado um dos métodos hierárquicos mais utilizados na literatura. As vantagens do BIRCH são as seguintes:
+Em \cite{Zhang1996}, BIRCH significa Balanced Iterative Reducing and Clustering using Hierarchies sendo um algoritmo usado para agrupamentos em bases de dados muito grandes. É considerado um dos métodos hierárquicos mais utilizados na literatura. As vantagens do BIRCH são as seguintes:
 
 \begin{itemize}
 	\item BIRCH trabalha de maneira local. Isso é obtido usando medições que indicam a proximidade natural dos pontos, de modo que cada decisão de agrupamento possa ser feita sem verificar todos os pontos de dados ou grupos existentes.
@@ -109,7 +111,7 @@ grupos são limitados, pois só crescem na horizontal ou vertical e sofrem para 
 
 Os resultados produzidos pelo STING se aproximam do agrupamento produzido pelo
 DBSCAN a medida que a granularidade da estrutura de grade se aproxima de 0, podendo
-também ser considerado como um método baseado em densidade.
+também ser considerado como um método baseado em densidade, que será descrito a seguir.
 Uma das vantagens do STING é a complexidade linear de tempo em relação ao número de objetos
 a serem agrupados.
 
@@ -135,14 +137,14 @@ Para entender o método é necessário conhecer alguns conceitos básicos do alg
 	\item Eps: raio ao redor de um ponto. 
 	\item Eps-vizinhança: a vizinhança de um ponto ${p}$ com raio Eps, dado por ${N_{Eps}(p)}$, é definido por ${N_{Eps}(p) = \big\{ q \in D | dist(p, q)  \leqslant Eps\big\} }$. Na figura \ref{fig:epsViz} abaixo os círculos representam respectivamente a vizinhança Eps dos pontos ${q}$ e ${p}$.
 	\item Ponto Central: Se o Eps-vizinhança de um ponto ${p}$ contém ao menos um número mínimo, MinPts, de pontos, então o ponto ${p}$ é chamado de ponto central.
-	Por exemplo, na figura \ref{fig:epsViz}, se adotarmos MinPts = 4, ${p}$ é um ponto central e os demais não são pontos centrais.
+	Por exemplo, na figura \ref{fig:epsViz}, se for adotado MinPts = 4, ${p}$ é um ponto central e os demais não são pontos centrais.
 	\item Ponto de Borda: Se a Eps-vizinhança de um ponto ${p}$ contém algum ponto central e menos que MinPts então o ponto ${p}$ é chamado de ponto de borda. Na figura  \ref{fig:epsViz}, ${q}$, ${r}$ e ${s}$ são pontos de borda.
 	\item Diretamente alcançável: um ponto ${p}$ é alcançável se ele está no Eps-vizinhança de ${q}$ e este é um ponto central.
 	\item Maximalidade: um ponto ${p}$ é alcançável se existe uma cadeia de pontos que os liga, que respeita Eps e MinPts.
 	\item Conectividade: Um ponto ${p}$ está conectado a um outro ${q}$ se existe um objeto ${o}$ tal que tanto ${p}$ quanto ${q}$ são alcançáveis a partir de ${o}$, com respeito a Eps e MinPts. Logo é uma relação simétrica.
 	\item Cluster: Seja D uma base de dados, um grupo C é um subconjunto não vazio de D, respeitando Eps e MinPts, onde:
-		\subitem ${\forall}$ p, q se q ${\in}$ C e ${p}$ é alcançável a partir de ${q}$.
-		\subitem ${\forall}$ p, q ${\in}$ C ${p}$ está conectado por densidade a ${q}$.
+		\subitem ${\forall}$ ${p}$, ${q}$ se ${q}$ ${\in}$ C e ${p}$ é alcançável a partir de ${q}$.
+		\subitem ${\forall}$ ${p}$, ${q}$ ${\in}$ C ${p}$ está conectado por densidade a ${q}$.
 \end{enumerate}
 
 \begin{figure}[!h]
@@ -155,7 +157,7 @@ Para entender o método é necessário conhecer alguns conceitos básicos do alg
 	}
 \end{figure}
 
-O procedimento para encontrar um cluster é baseado no fato de que um cluster é
+O procedimento para encontrar um agrupamento é baseado no fato de que um grupo é
 inequivocamente determinado por qualquer de seus centros \cite{ESTER1998}. 
 O DBSCAN pode utilizar R*-tree para obter um melhor desempenho, mesmo assim  a complexidade média do tempo de execução do DBSCAN será ${O (N logN)}$, onde ${N}$ é o número de objetos da base de dados \cite{Sheikholeslami1998}.
 
@@ -166,7 +168,7 @@ As etapas envolvidas neste algoritmo são as seguintes:
 \begin{enumerate}
 	\item Selecionar um ponto arbitrário ${p}$;
 	\item Recuperar todos os pontos que são alcançáveis por densidade a partir do ponto ${p}$;
-	\item Se ${p}$ é um ponto central, um cluster é formado;
+	\item Se ${p}$ é um ponto central, um grupo é formado;
 	\item Se ${p}$ é um ponto de borda, nenhum ponto é alcançável por densidade a partir de ${p}$ e DBSCAN visita o próximo ponto do banco de dados;
 	\item Continuar o processo até que todos os pontos tenham sido processados.
 \end{enumerate}
@@ -220,22 +222,20 @@ As etapas envolvidas neste algoritmo são as seguintes:
 \end{algorithm}
 
 
-Para agrupar os pontos levando em conta o fator tempo é necessário uma alteração no algoritmo DBScan, e com isso detectar os grupos em relação ao tempo. Logo, o algoritmo determinada para esta implementação foi o ST-DBScan \cite{Birant2007STDBSCANAA}, abordado a seguir.
-
 \section{Método ST-DBSCAN}
 \label{stdbscan}
 
 % Comentar um bloco de código: \iffalse \fi
-O algoritmo DBSCAN \cite{ESTER1998} usa apenas um parâmetro de distância Eps para medir a similaridade de dados espaciais com uma dimensão. A fim de suportar dados espaciais bidimensionais, o ST-DBSCAN \cite{Birant2007STDBSCANAA} usa duas métricas de distância, Eps1 e Eps2, para definir a similaridade por uma conjunção de dois testes de densidade.
-O algoritmo ST-DBSCAN é construído modificando o algoritmo DBSCAN. Em contraste com o algoritmo de agrupamento baseado em densidade existente, o algoritmo ST-DBSCAN tem a capacidade de descobrir clusters de acordo com valores não espaciais, espaciais e temporais dos objetos. As três modificações feitas no algoritmo DBSCAN são as seguintes:
+Para agrupar os pontos levando em conta o fator tempo é necessário uma alteração no algoritmo DBSCAN \cite{ESTER1998}, e com isso detectar os grupos em relação ao tempo. Esse algoritmo usa apenas um parâmetro de distância Eps para medir a similaridade de dados espaciais com uma dimensão. A fim de suportar dados espaciais bidimensionais, o ST-DBSCAN \cite{Birant2007STDBSCANAA} usa duas métricas de distância, Eps1 e Eps2, para definir a similaridade por uma conjunção de dois testes de densidade.
+O algoritmo ST-DBSCAN é construído modificando o algoritmo DBSCAN. Em contraste com o algoritmo de agrupamento baseado em densidade existente, o algoritmo ST-DBSCAN tem a capacidade de descobrir agrupamentos de acordo com valores não espaciais, espaciais e temporais dos objetos. As três modificações feitas no algoritmo DBSCAN são as seguintes:
 \begin{itemize}
 \item Permitir o algoritmo ST-DBSCAN descobrir grupos em dados espaciais-temporais.
-\item Introdução do fator de densidade atribuído a cada cluster, que é o seu grau de densidade,
-para encontrar objetos de ruído quando existem clusters de diferentes densidades.
-\item A terceira modificação fornece uma comparação do valor médio de um cluster com o novo valor resultante. Necessária para resolver os conflitos em pontos de borda.
+\item Introdução do fator de densidade atribuído a cada grupo, que é o seu grau de densidade,
+para encontrar objetos de ruído quando existem grupos de diferentes densidades.
+\item A terceira modificação fornece uma comparação do valor médio de um grupo com o novo valor resultante. Necessária para resolver os conflitos em pontos de borda.
 \end{itemize}
 
-O algoritmo DBSCAN não é satisfatório quando existem clusters de diferentes densidades. Para superar esse problema,  o ST-DBSCAN atribui a cada cluster um fator de densidade, que é o grau da densidade do cluster.
+O algoritmo DBSCAN não é satisfatório quando existem agrupamentos de diferentes densidades. Para superar esse problema,  o ST-DBSCAN atribui a cada grupo um fator de densidade, que é o grau da densidade do grupo.
 A função DensityDistance é dada por:
 
 ${DensityDistance = \frac{DensityDistanceMax}{DensityDistanceMin}}$
@@ -247,7 +247,7 @@ ${DensityDistanceMax(p) = max\big\{ dist(p, q) | q \in D \wedge dist(p, q)  \leq
 ${DensityDistanceMin(p) = min\big\{ dist(p, q) | q \in D \wedge dist(p, q)  \leqslant Eps\big\} }$
 \linebreak
 
-O fator de densidade de um cluster ${C}$ é dado por:
+O fator de densidade de um grupo ${C}$ é dado por:
 
 ${DensityFactor(C) = 1\big/\left [   \frac{\sum_{p\in C}DensityDistance(p)}{|C|} \right ]
 }$
@@ -261,13 +261,13 @@ Uma grande diferença entre o DBSCAN e o ST-DBSCAN é a utilização de um segun
 \begin{enumerate}
 	\item O algoritmo começa com o primeiro ponto ${p}$ no banco de dados D.
 	\item Este ponto ${p}$ é processado de acordo com o algoritmo DBSCAN e o próximo ponto é tomado.
-	\item A função BuscarVizinhos(p, Ep1, Ep2) recupera todos os pontos que tem uma distância menor que Eps1 e Eps2 para o ponto ${p}$. Se os pontos recuperados não podem ser alcançados o ponto é atribuído como ruído, onde o ponto selecionado não tem vizinhos suficientes para ser armazenado em cluster.
-	\item Os pontos marcados como ruído podem ser alterados posteriormente, se não forem diretamente alcançáveis pela densidade, mas eles são alcançáveis por densidade de algum outro ponto do banco de dados. Isso acontece para pontos de borda de um cluster.
-	\item Se o ponto selecionado tiver vizinhos suficientes dentro das distâncias Eps1 e Eps2 - se for um ponto central - então um novo cluster será construído.
+	\item A função BuscarVizinhos(p, Ep1, Ep2) recupera todos os pontos que tem uma distância menor que Eps1 e Eps2 para o ponto ${p}$. Se os pontos recuperados não podem ser alcançados o ponto é atribuído como ruído, onde o ponto selecionado não tem vizinhos suficientes para ser armazenado em grupo.
+	\item Os pontos marcados como ruído podem ser alterados posteriormente, se não forem diretamente alcançáveis pela densidade, mas eles são alcançáveis por densidade de algum outro ponto do banco de dados. Isso acontece para pontos de borda de um grupo.
+	\item Se o ponto selecionado tiver vizinhos suficientes dentro das distâncias Eps1 e Eps2 - se for um ponto central - então um novo grupo será construído.
 	\item Todos os vizinhos diretamente atingíveis por densidade desse ponto central também são incluídos.
 	\item O algoritmo reúne iterativamente pontos acessíveis por densidade a partir desse ponto central usando uma pilha.
-	\item Se o objeto não estiver marcado como ruído ou não estiver em um cluster e a diferença entre o valor médio do cluster e o novo valor é menor do que o valor limite para incluir em um cluster, ${\Delta E}$, ele é colocado no cluster atual.
-	\item Se dois clusters ${C_1}$ e ${C_2}$ estão muito próximos um do outro, um ponto ${p}$ pode pertencer a ambos ${C_1}$ e ${C_2}$. Então o ponto ${p}$ é atribuído ao cluster que foi descoberto primeiro.
+	\item Se o objeto não estiver marcado como ruído ou não estiver em um grupo e a diferença entre o valor médio do grupo e o novo valor é menor do que o valor limite para incluir em um grupo, ${\Delta E}$, ele é colocado no grupo atual.
+	\item Se dois grupos ${C_1}$ e ${C_2}$ estão muito próximos um do outro, um ponto ${p}$ pode pertencer a ambos ${C_1}$ e ${C_2}$. Então o ponto ${p}$ é atribuído ao grupo que foi descoberto primeiro.
 	\item Depois de processar o ponto selecionado, o algoritmo seleciona o próximo ponto em D e o algoritmo continua iterativamente até que todos os pontos tenham sido processados.
 \end{enumerate}
 
@@ -306,6 +306,19 @@ Uma grande diferença entre o DBSCAN e o ST-DBSCAN é a utilização de um segun
 	}
 \end{algorithm}
 
+TODO -- criar subsections 
+\cite{lahiri2007} apresentam um algoritmo de predição em redes temporais, e que usa a ideia de que certas
+interações sinalizam a ocorrência de outros em algum momento no futuro. Através de análises estatísticas
+o algoritmo mede o atraso entre as interações, e com isso pode-se prever quando certas interações vão ocorrer
+com base em observações passadas e atuais. Propõe-se a utilização de subgrafos frequentes e discute
+como identificar subgrafos que são persistidos em redes temporais.
+\cite{lahiri2008} em seguida propõe um novo problema de mineração de dados para redes dinâmicas:
+detecção de todos os padrões de interação que ocorrem em intervalos de tempo regulares.
+
+\cite{alfredo2009} propôs um algoritmo baseado no método IGN (Identificador de Grupos Naturais) de \cite{simposioNeg2003}, onde este apresenta bons resultados tanto para distâncias euclidianas quanto para outras distâncias; é sensível à presença de \textit{outliers} em situações muito específicas; e o número de grupos naturais e sua composição é obtida automaticamente no processo.
+
+
+
 \subsection{Agrupamento de dados baseado em predição}
 %Temporal Data Mining [Mitsa]
 A tarefa de predição visa descobrir o valor futuro de um determinado atributo de dados. É uma área com variedade de aplicações em diversas áreas como meteorologia e detecção de doenças. Por exemplo, um médico gostaria de prever a reação de seus pacientes a um novo medicamento para diabetes, particularmente a duração dos episódios de hipoglicemia.
@@ -314,6 +327,10 @@ Na previsão de séries temporais, os dados são dados históricos obtidos em in
 
 \section{Redes dinâmicas}
  \label{redes-dinamicas}
+ 
+ TODO --- Introduzir o processo de previsão de agrupamentos espaço temporais e sugira dois métodos básicos de previsão: Usar o livro Mitsa (2010) pagina 105 (clsutering of Time Series Data Steams, Time Series Clustering Using Global Characteristics. Mostre como cada um funciona com um exemplo. Vá nos artigos que apresentam estes métodos---
+
+ 
  Para redes dinâmicas, o foco é tipicamente em uma classe de redes e questões referentes às estrutura dessa classe de rede, como a estrutura evoluiu e como isso afeta sistemas dinâmicos na rede. As redes temporais normalmente são mais orientadas a dados - onde se investiga um conjunto de dados, suas estruturas e como, por exemplo, surtos epidêmicos se comportariam sobre ele. Em seguida, é questionado como essas observações se generalizam comparando os resultados para diferentes conjuntos de dados \cite{holme:colloquium}.
  
 \subsection{O modelo Dynagraph}
@@ -322,7 +339,7 @@ O Dynagraph \cite{dynagraph} é um modelo computacional que permite, a partir de
 
 \subsubsection{Estrutura de dados}
 
-(TODO - anexar imagemm da estrutura JSON usada pelo Dynagraph)
+(TODO - anexar imagem da estrutura JSON usada pelo Dynagraph)
 
 \subsection{Editor de características}
 O Editor de Características é uma extensão do software DYNAGRAPH, que permite alterar os atributos visuais dos vértices e aresta de um grafo dinâmico.
@@ -332,7 +349,7 @@ Essa extensão permite criar com os seguintes atributos: Rótulo, Opacidade, Esc
 A figura \ref{fig:edCaMenu} exibe a localização do Editor de Características na aplicação em um menu lateral com as seguinte opções: Vértice, Aresta e um painel, este exibe a data atual e número de vértices e arestas em análise.
 \begin{figure}[!h]
 	\centering	
-	\Caption{\label{fig:edCaMenu} Editor de Características: menu lateral}
+	\caption{\label{fig:edCaMenu} Editor de Características: menu lateral}
 	\UECEfig{}{
 		\includegraphics[width=15cm]{figuras/editorCaract/edCaractMenu.png}
 	}{
@@ -514,7 +531,7 @@ A pesquisa aborda estrutura de dados em grafos dinâmicos usando passos já desc
 principalmente o modelo Dynagraph \cite{dynagraph}, que é baseado na primeira proposta
 em \cite{dynagraph2012}, onde o Dynagraph usa sequências temporais para vértices, arestas,
 características modificáveis dos vértices e arestas e o relacionamento entre suas características.
-Com isso, é formado um grafo com as informações necessárias para qualquer instante no tempo.
+Ele permite formar um grafo com as informações necessárias para qualquer instante no tempo.
 O Dynagraph é capaz de visualizar o comportamento do grafo ao longo de um período de tempo,
 e editá-lo.
 
@@ -531,25 +548,7 @@ introduzir novas formas de enxergar ou descrever a evolução de eventos dinâmi
 estáticos, no entanto avança sobre as métricas introduzindo conceitos como disponibilidade
 temporal, proximidade temporal e geodésica, e estuda os seus grafos sobre redes reais.
 
-Segundo \cite{ESTER1996}, o algoritmo DBScan (\textit{Density-Based Spatial Clustering
-of Applications With Noise}) calcula a densidade de uma região contando quantos pontos existem
-em uma determinada área seguindo uma determinada métrica. Ele permite a redução de pontos não
-pertencentes a nenhum padrão, assim como possibilita a formação de grupos de diferentes formas.
-Seu objetivo principal é dividir os pontos em grupos através da densidade de cada região.
 
-\cite{lahiri2007} apresentam um algoritmo de predição em redes temporais, e que usa a ideia de que certas
-interações sinalizam a ocorrência de outros em algum momento no futuro. Através de análises estatísticas
-o algoritmo mede o atraso entre as interações, e com isso pode-se prever quando certas interações vão ocorrer
-com base em observações passadas e atuais. Propõe-se a utilização de subgrafos frequentes e discute
-como identificar subgrafos que são persistidos em redes temporais.
-\cite{lahiri2008} em seguida propõe um novo problema de mineração de dados para redes dinâmicas:
-detecção de todos os padrões de interação que ocorrem em intervalos de tempo regulares.
-
-% \cite{alfredo} propôs um algoritmo baseado no método IGN (Identificador
-% de Grupos Naturais) de \cite{simposioNeg}, onde este apresenta bons resultados tanto para distâncias 
-% euclidianas quanto para outras distâncias; é sensível à presença de \textit{outliers} em situações muito específicas;
-% e o número de grupos naturais e sua composição é obtida automaticamente no processo.
-% A pesquisa seguirá este método para verificar o processo de construção de agrupamentos dinâmicos.
 
 
 
