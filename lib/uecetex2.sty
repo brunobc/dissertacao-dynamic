@@ -1245,7 +1245,11 @@
 \setlength{\glsdescwidth}{\linewidth}
 
 \newcommand{\imprimirlistadeabreviaturasesiglas}{ %
-	\printglossary[type=\acronymtype,style=long,nonumberlist,title={Lista de Abreviaturas e Siglas\vspace{-0.3cm}}] %
+	%\printglossary[type=\acronymtype,style=long,nonumberlist,title={Lista de Abreviaturas e Siglas\vspace{-0.3cm}}] %
+	\printacronyms[%
+	name = Lista de Abreviaturas e Siglas\vspace{-0.3cm},
+	sort = true,
+	]
 	\pagebreak %
 }
 

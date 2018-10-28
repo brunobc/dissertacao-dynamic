@@ -2,7 +2,7 @@
 \chapter{Conceitos e revisão bibliográfica}
 \label{cap:estadodaarte}
 
-Uma visão geral sobre agrupamentos é apresentada na seção \ref{agrupamentos}. Na seção \ref{dbscan} apresentamos o algoritmo DBSCAN em detalhes e suas características. A seção \ref{stdbscan} apresenta o ST-DBSCAN, que é utilizada nesse trabalho para auxiliar os métodos de previsão dinâmica. Na seção  \ref{redes-dinamicas}  discutimos redes dinâmicas, exibimos o modelo DYNAGRAPH e um editor de características. A seção  \ref{trabalhos-relacionados}  define e apresenta os trabalhos relacionados ao problema de agrupamentos dinâmicos.
+Uma visão geral sobre agrupamentos é apresentada na seção \ref{agrupamentos}. Na seção \ref{dbscan} apresenta-se o algoritmo DBSCAN em detalhes e suas características. A seção \ref{stdbscan} apresenta o ST-DBSCAN, que é utilizada nesse trabalho para auxiliar os métodos de previsão dinâmica. Na seção  \ref{redes-dinamicas}  discute-se redes dinâmicas e exibe-se o modelo Dynagraph e um editor de características. A seção  \ref{trabalhos-relacionados}  define e apresenta os trabalhos relacionados ao problema de agrupamentos dinâmicos.
 
 
 \section{Agrupamentos}
@@ -22,7 +22,7 @@ Esse método consiste em escolher ${K}$ objetos como sendo os centros dos ${K}$ 
 Os objetos são divididos entre os ${K}$ grupos de acordo com algum critério de similaridade
 estabelecido pelo algoritmo, de modo que cada objeto fique no grupo que tem o menor valor de
 distância entre o objeto e o centro do grupo a que ele pertence.
-Os algoritmos de particionamento são muito populares devido à sua facilidade de implementação e baixo custo computacional; no entanto, eles têm essas desvantagens: (1) eles são sensíveis à presença de ruído e outliers, (2) eles podem descobrir apenas grupos com formas convexas e (3) o número de grupos precisa ser especificado.
+Os algoritmos de particionamento são muito populares devido à sua facilidade de implementação e baixo custo computacional; no entanto, eles têm essas desvantagens: (1) eles são sensíveis à presença de ruído e \textit{outliers}, (2) eles podem descobrir apenas grupos com formas convexas e (3) o número de grupos precisa ser especificado.
 
 \subsubsection{Agrupamentos K-Médias}
 O algoritmo de agrupamento k-médias é uma das técnicas mais populares dessa abordagem e foi introduzido em \cite{Macqueen67}. Ele utiliza a média dos objetos que são do grupo em questão, também conhecido como centro de gravidade do grupo.  A idéia principal neste algoritmo é usar a média dos objetos para atribuí-los a grupos e também usá-los para  representar estes.
@@ -43,38 +43,38 @@ K-médias é um algoritmo que garante a convergência para um ótimo local, mas 
 
 TODO --- Represente a evolução deste método em figuras.
 \subsubsection{Agrupamentos K-Medoids}
-O algoritmo de K-Medoids foi introduzido primeiramente em \cite{kaufmann1990} e não é tão sensível aos outliers quanto os k-médias. Nesse algoritmo, cada grupo é representado pelo objeto mais próximo ao centro, conhecido como medoid.
+O algoritmo de K-Medoids foi introduzido primeiramente em \cite{kaufmann1990} e não é tão sensível aos \textit{outliers} quanto os k-médias. Nesse algoritmo, cada grupo é representado pelo objeto mais próximo ao centro, conhecido como \textit{medoid}.
 O processo geral para o algoritmo é o seguinte:
  \begin{enumerate}
- 	\item Escolher aleatoriamente ${k}$ objetos como os medoids iniciais.
- 	\item Atribuir cada um dos objetos restantes ao grupo que possui o medoid mais próximo.
- 	\item Em um grupo, selecionar aleatoriamente um objeto que não seja medoid (${nonmedoid}$), que será referenciado como ${O_{nonmedoid}}$.
- 	\item Calcular o custo de substituir o medoid com ${O_{nonmedoid}}$. Este custo é a diferença no erro quadrático se o medoid atual for substituído por ${O_{nonmedoid}}$. Se for negativo, faça ${O_{nonmedoid}}$ o medoid do grupo. O erro quadrático é novamente somado ao erro de todos os objetos:
+ 	\item Escolher aleatoriamente ${k}$ objetos como os \textit{medoids} iniciais.
+ 	\item Atribuir cada um dos objetos restantes ao grupo que possui o \textit{medoid} mais próximo.
+ 	\item Em um grupo, selecionar aleatoriamente um objeto que não seja \textit{medoid} (${nonmedoid}$), que será referenciado como ${O_{nonmedoid}}$.
+ 	\item Calcular o custo de substituir o \textit{medoid} com ${O_{nonmedoid}}$. Este custo é a diferença no erro quadrático se o \textit{medoid} atual for substituído por ${O_{nonmedoid}}$. Se for negativo, faça ${O_{nonmedoid}}$ o \textit{medoid} do grupo. O erro quadrático é novamente somado ao erro de todos os objetos:
  	\begin{equation}
  	E = \sum_{i=1}^{k}\sum_{o\in C_{i}} |o - O_{medoid(i)}|^{2}
  	\end{equation}
- 	onde ${O_{medoid(i)}}$ é o medoid do grupo ${C_{i}}$.
+ 	onde ${O_{medoid(i)}}$ é o \textit{medoid} do grupo ${C_{i}}$.
  	\item Repetir a partir do passo 2 até que não haja mudanças. 
  \end{enumerate}
 TODO --- Represente a evolução deste método em figuras.
 
 \subsection{Métodos hierárquicos}
-Nesta classe de algoritmos os objetos são colocados em uma hierarquia que é percorrida de uma forma bottom-up ou top-down para criar os grupos. A vantagem deste tipo de agrupamento é que ele não requer nenhum conhecimento sobre o número de grupos, e sua desvantagem é sua complexidade computacional \cite{Lin2004}. Muitas vezes, uma estrutura em árvore, um dendrograma, é usada para representar os níveis hierárquicos aninhados.
+Nesta classe de algoritmos os objetos são colocados em uma hierarquia que é percorrida de baixo para cima (\textit{bottom-up}) ou de cima para baixo (\textit{top-down}) para criar os grupos. A vantagem deste tipo de agrupamento é que ele não requer nenhum conhecimento sobre o número de grupos, e sua desvantagem é sua complexidade computacional \cite{Lin2004}. Muitas vezes, uma estrutura em árvore, um dendrograma, é usada para representar os níveis hierárquicos aninhados.
 
-Os aglomerativos funcionam de uma maneira botton-up,
+Os aglomerativos funcionam de uma maneira \textit{bottom-up},
 assumindo inicialmente que cada elemento do conjunto de dados representa um grupo. Em seguida, os grupos são fundidos em grupos maiores até a criação de um grupo único ou qualquer outro critério de parada.
 
-A abordagem divisisa trabalham de maneira top-down, considerando todo o conjunto de dados como um só
+A abordagem divisiva trabalham de maneira \textit{top-down}, considerando todo o conjunto de dados como um só
 grupo, que é dividido de maneira recursiva de acordo com a medida de similaridade
 estabelecida.
 
 \subsubsection{O algoritmo BIRCH}
 
-Em \cite{Zhang1996}, BIRCH significa Balanced Iterative Reducing and Clustering using Hierarchies sendo um algoritmo usado para agrupamentos em bases de dados muito grandes. É considerado um dos métodos hierárquicos mais utilizados na literatura. As vantagens do BIRCH são as seguintes:
+Em \cite{Zhang1996}, BIRCH significa Balanced Iterative Reducing and Clustering using Hierarchies é um algoritmo usado para agrupamentos em bases de dados muito grandes sendo considerado um dos métodos hierárquicos mais utilizados na literatura. As vantagens do BIRCH são as seguintes:
 
 \begin{itemize}
 	\item BIRCH trabalha de maneira local. Isso é obtido usando medições que indicam a proximidade natural dos pontos, de modo que cada decisão de agrupamento possa ser feita sem verificar todos os pontos de dados ou grupos existentes.
-	\item Leva em conta a estrutura de dados espacial. Ele trata os pontos em uma região densa como um único grupo, enquanto os pontos em uma região esparsa são caracterizados como outliers e podem ser removidos opcionalmente.
+	\item Leva em conta a estrutura de dados espacial. Ele trata os pontos em uma região densa como um único grupo, enquanto os pontos em uma região esparsa são caracterizados como \textit{outliers} e podem ser removidos opcionalmente.
 	\item O algoritmo faz uso total da memória disponível enquanto minimiza os custos de Entrada/saída de dados.
 \end{itemize}
 
@@ -87,7 +87,7 @@ O agrupamento acontece essencialmente em duas fases. Na primeira delas, o algori
 Em \cite{Guha1998}, um novo algoritmo hierárquico é proposto para detectar grupos que não são necessariamente convexos. Os grupos do CURE são representados por um número fixo de pontos bem espalhados que são encolhidos em direção ao centro do grupo por uma determinada fração. O CURE difere do algoritmo BIRCH de duas maneiras:
 \begin{itemize}
 \item O CURE começa desenhando uma amostra aleatória em vez de pré-agrupar todos os pontos de dados, como no caso do BIRCH.
-\item CURE primeiro particiona a amostra aleatória e, em seguida, em cada partição, os dados são parcialmente agrupados. Em seguida, os outliers são eliminados e os dados pré-agrupados em cada partição são agrupados para gerar os grupos finais.
+\item CURE primeiro particiona a amostra aleatória e, em seguida, em cada partição, os dados são parcialmente agrupados. Em seguida, os \textit{outliers} são eliminados e os dados pré-agrupados em cada partição são agrupados para gerar os grupos finais.
 \end{itemize}
 Os resultados experimentais no artigo mostram que o tempo de execução do CURE é sempre menor que o do BIRCH. Mais importante, os resultados mostram que, à medida que o tamanho do banco de dados aumenta, o tempo de execução do BIRCH aumenta rapidamente enquanto o tempo de execução do CURE aumenta muito pouco. O motivo é que o BIRCH varre todo o banco de dados e usa todos os pontos para o pré-agrupamento, enquanto o CURE usa apenas uma amostra aleatória.
 
@@ -116,7 +116,7 @@ Uma das vantagens do STING é a complexidade linear de tempo em relação ao nú
 a serem agrupados.
 
 \subsection{Métodos baseados em densidade}
-Nesta classe de algoritmos, a idéia principal é manter os grupos em crescimento, desde que sua densidade esteja acima de um certo limite. A vantagem dos algoritmos baseados em densidade, em comparação com os algoritmos de particionamento baseados em distância, é que eles podem detectar grupos de forma arbitrária. Isso também fornece uma proteção natural contra outliers. Por outro lado, os algoritmos baseados em distância detectam apenas aglomerados de forma convexa.
+Nesta classe de algoritmos, a idéia principal é manter os grupos em crescimento, desde que sua densidade esteja acima de um certo limite. A vantagem dos algoritmos baseados em densidade, em comparação com os algoritmos de particionamento baseados em distância, é que eles podem detectar grupos de forma arbitrária. Isso também fornece uma proteção natural contra \textit{outliers}. Por outro lado, os algoritmos baseados em distância detectam apenas aglomerados de forma convexa.
 
 Os agrupamentos baseados em densidade analisam a quantidade de elementos dentro de uma vizinhança de acordo com determinados parâmetros. A idéia-chave é que, para cada instância de um grupo, a vizinhança de um determinado raio deve conter pelo menos um número mínimo de instâncias.
 
@@ -342,8 +342,8 @@ O Dynagraph \cite{dynagraph} é um modelo computacional que permite, a partir de
 (TODO - anexar imagem da estrutura JSON usada pelo Dynagraph)
 
 \subsection{Editor de características}
-O Editor de Características é uma extensão do software DYNAGRAPH, que permite alterar os atributos visuais dos vértices e aresta de um grafo dinâmico.
-Com ele podemos criar novos tipos de dados e com isso diferenciar, por exemplo, focos de casos de dengue e tipos de dengue.
+O Editor de Características é uma extensão do software Dynagraph, que permite alterar os atributos visuais dos vértices e aresta de um grafo dinâmico.
+Com ele pode-se criar novos tipos de dados e com isso diferenciar, por exemplo, focos de casos de dengue e tipos de dengue.
 Essa extensão permite criar com os seguintes atributos: Rótulo, Opacidade, Escala, Espessura da Borda, Cor da Borda e Cor de Preenchimento. Outra opção é utilizar uma imagem.
  
 A figura \ref{fig:edCaMenu} exibe a localização do Editor de Características na aplicação em um menu lateral com as seguinte opções: Vértice, Aresta e um painel, este exibe a data atual e número de vértices e arestas em análise.
@@ -382,7 +382,7 @@ A figura \ref{fig:edCaCriacao2} exibe os tipos de dados permitidos na criação 
 \end{figure}
 \FloatBarrier
 
-Após criar um novo tipo de vértice podemos usá-lo editando um dado ponto no mapa, como mostram as figuras \ref{fig:edCaChangeV1} e \ref{fig:edCaChangeV2}.
+Após criar um novo tipo de vértice pode-se usá-lo editando um dado ponto no mapa, como mostram as figuras \ref{fig:edCaChangeV1} e \ref{fig:edCaChangeV2}.
 A figura \ref{fig:edCaShowV} exibe o resultado esperado.
 \begin{figure}[h]
 	\centering	
@@ -439,7 +439,7 @@ Para editar um tipo de vértice basta selecioná-lo a partir da lista de tipos d
 \end{figure}
 \FloatBarrier
 
-Outra opção de edição de um vértice é dado na figura \ref{fig:edCaractEditVerticeOption2}. Nesta opção podemos usar uma imagem pronta.
+Outra opção de edição de um vértice é dado na figura \ref{fig:edCaractEditVerticeOption2}. Nesta opção pode-se usar uma imagem pronta.
 \begin{figure}[h]
 	\centering	
 	\Caption{\label{fig:edCaractEditVerticeOption2} Editor de Características: Tipo de vértice}	

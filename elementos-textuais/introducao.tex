@@ -22,15 +22,12 @@ Agrupamento de dados ganhou uso muito difundido, especialmente para dados estát
 No entanto, o rápido crescimento de dados espaço-temporais de inúmeros instrumentos,
 como os satélites em órbita terrestre, criou uma necessidade de métodos de agrupamento
 espaço-temporais para extrair e monitorar agrupamentos dinâmicos. O agrupamento espaço-temporal
-dinâmico enfrenta dois grandes desafios: primeiro, os clusters são dinâmicos e podem mudar de
+dinâmico enfrenta dois grandes desafios: primeiro, os \textit{clusters} são dinâmicos e podem mudar de
 tamanho, forma e propriedades estatísticas ao longo do tempo. Em segundo lugar, vários dados
 espaço-temporais são incompletos, ruidosos, heterogêneos e altamente variáveis sobre espaço e tempo.
 
-Você precisa definir o problema e não apresentar um método de resolvê-lo.
 
 O problema de agrupamento dinâmico é o problema de encontrar grupos de dados de máxima dissimilaridade que evoluem no tempo e no maior tempo possível (ou com a maior estabilidade possível).
-Para a obtenção das informações espaço-temporais mapeáveis e características do indivíduo, segue-se três estratégias para resolução do problema: na primeira os dados são analisados
-como um só grupo (Agrupamento Estático); na segunda os dados são tratados por intervalos pré-definidos; na terceira mapeia-se as evoluções entre intervalos observados. Sendo assim, pretende-se indicar o conjunto de grupos espacialmente correlacionados também no tempo (TODO - incluir referência).
 
 Já o problema de previsão de grupos dinâmicos introduz o conceito de indicar os
 possíveis grupos que serão formados no tempo após um conjunto de eventos serem
@@ -40,7 +37,7 @@ Métodos de previsão de agrupamentos dinâmicos têm sido estudados nas áreas 
 
 A representação dinâmica dos eventos também tem sido um problema importante. Muitos modelos são utilizados tais como representação espaço temporal por vídeos e grafos. Na representação espaço temporal por vídeos, o objetivo é sincronizar os modelos de previsão com a descoberta dos agrupamentos enquanto um vídeo real acontece (usado principalmente na climatologia); já a representação dinâmica por grafos dinâmicos, tem sido estudada pela literatura com maior profundidade pois permite acompanhar eventos e gerar previsões espaço temporais sabendo-se e controlando-se os principais atores do processo, tais como: elemento dinâmico e contexto dinâmico.
 
-Ferramentas de grafos dinâmicos foram desenvolvidas e seguem em uso, como o Gephi e o Dynagraph. Aqui será feito um trabalho sobre o modelo Dynagraph para representação de uma estrutura dinâmica incluindo a possibilidade de variação dinâmica das características (cor, forma, tamanho, etc) dos elementos do grafo. Deste modo, esta visão evolutiva ajudaria ao modelo sistêmico representar claramente a realidade da evolução dos fenômenos que se deseja demonstrar para facilitar a tomada de decisão.
+Ferramentas de grafos dinâmicos foram desenvolvidas e seguem em uso, como o Gephi e o Dynagraph \cite{dynagraph}. Aqui será feito um trabalho sobre o modelo Dynagraph para representação de uma estrutura dinâmica incluindo a possibilidade de variação dinâmica das características (cor, forma, tamanho, etc) dos elementos do grafo. Deste modo, esta visão evolutiva ajudaria ao modelo sistêmico representar claramente a realidade da evolução dos fenômenos que se deseja demonstrar para facilitar a tomada de decisão.
 
 
 %O algoritmo proposto para previsão de agrupamentos é uma importante contribuição
@@ -72,7 +69,7 @@ Para que se alcance o objetivo geral, as seguintes metas foram estabelecidas:
 As hipóteses a seguir conduziram a elaboração desta dissertação:
 \begin{alineas}
 	\item É possível a criação de um algoritmo capaz de sugerir novos agrupamentos geolocalizados baseados no tempo.
-	\item É exequível a integração de um editor de características ao DYNAGRAPH, que é um software extensível.
+	\item É exequível a integração de um editor de características ao Dynagraph, que é um software extensível.
 	\item É realizável a utilização do modelo proposto de agrupamentos em grafos dinâmicos em um ambiente Web.
 \end{alineas}
 
@@ -82,65 +79,37 @@ relacionando os assuntos abordados: agrupamento, previsão em dados
 dinâmicos espaço-temporais, grafos dinâmicos e sistemas web de forma integrada.
 E também, acelerar técnicas de agrupamento em grafos dinâmicos para tomada de decisão.
 
-TODO --- É preciso incluir que existe a disponibildade de dados espaço-temporais para acompanhar a evolução da dengue e chikungunya em Fortaleza, e que as informações pouco ajudam na melhor tomada de decisão para direcionamento dos recursos apropriados para o controle das doenças nos períodos de grande crescimento. A antevisão do processo mostra a possibilidade de tornar factível a tomada de decisão acertiva.
-É preciso também saber o quão acertivo é o método, para que seja usado como ferramenta neste contexto. ---
+Em \cite{simda}, estão disponíveis dados espaço-temporais para acompanhar a evolução da dengue e chikungunya em Fortaleza, que é um sistema para monitorar diariamente os casos de endemias como zika, leishmaniose, leptospirose, dengue e chikungunya. Somente estes dois últimos estão disponíveis visualmente num mapa. As informações nesse sistema pouco ajudam na melhor tomada de decisão para direcionamento dos recursos apropriados para o controle das doenças nos períodos de grande crescimento. A antevisão do processo mostra a possibilidade de tornar factível a tomada de decisão acertiva. É preciso também saber o quão acertivo é o método, para que seja usado como ferramenta neste contexto.
 
 A relevância da pesquisa está em permitir uma análise dos dados extraídos 
 para apoio à tomada de decisão, onde concentra-se na avaliação dos resultados sobre bases de dados
 dinâmicas relativas a casos de Dengue e Chikungunya.
 A pesquisa toma como base as características de evolução dos casos da doença
 observados entre 2015 e 2018 em Fortaleza.
-Os dados foram tomados a partir de \cite{simda}, onde um estado é definido como o período de uma semana. 
+Os dados foram tomados a partir do Sistema de Monitoramento Diário de Agravos(SIMDA), onde um estado é definido como o período de uma semana. 
 
 \section{Metodologia}
-TODO -- Revisar conceitos e sobre Metodologia de um trabalho científico.
 
-\subsection{Etapas metodológicas do projeto}
-A presente pesquisa pode ser caracterizada quanto ao procedimento quantitativa
-e comparativa. A pesquisa quantitativa prioriza apontar numericamente a frequência e a
-intensidade dos comportamentos dos indivíduos de um determinado grupo, ou população. O
-método comparativo constitui-se em investigar coisas ou fatos e explicá-los de acordo com
-suas semelhanças e suas diferenças. Possibilita a análise de dados concretos e a dedução de
-semelhanças e divergências de elementos contínuos, abstratos e gerais, facilitando investigações
-de caráter indireto \cite{fachin}.
-
-\subsubsection{Revisão da literatura e soluções existentes}
-As fontes principais de pesquisa foram sites especializados em pesquisas científicas, por exemplo, o portal de periódicos
+As fontes principais de pesquisa foram \textit{sites} especializados em pesquisas científicas, por exemplo, o portal de periódicos
 da CAPES, IEEE e outros sites de referências em que possuem livros, periódicos e dissertações disponíveis.
 Os temas essenciais abordados na pesquisa foram:
 \begin{itemize}
 	\item Estrutura de dados em grafos dinâmicos
-	\item Modelos de previsão espaço-temporais
 	\item Algoritmos de agrupamentos dinâmicos
-\end{itemize}
-\subsubsection{Análise de requisitos}
-Detectou-se as necessidades de informações baseadas na previsão de agrupamentos dinâmicos
-em grafos. Assim sendo, e após obter os dados a partir de \cite{simda}, houve a necessidade de um software para
-representação e tratamentos de grafos dinâmicos. Com isso foi escolhido o DYNAGRAPH, que tem como 
-característica a extensibilidade.
-
-\subsubsection{Arquitetura do software}
-A arquitetura do software desenvolvido é apresentada, assim como o diagrama de caso de uso (UML).
-
-\subsubsection{Modelo e desenvolvimento de software}
-Foi desenvolvido um modelo capaz de representar agrupamentos e previsão dinâmicos.
-Em seguida, foi desenvolvido a partir do software DYNAGRAPH executar o modelo
-proposto e apresentar os resultados para validar a aplicação da ferramenta.
-
-\subsubsection{Ferramentas e Materiais}
-O desenvolvimento do trabalho foi realizado a partir dos seguintes equipamentos e materiais:
-\begin{itemize}
-	\item Macbook Pro 13" modelo 2015 / macOS High Sierra 10.13.2:
-	\subitem Processador Intel Core i5 2.7 GHz;
-	\subitem Memória de 8GB 1867 MHzs DDR3;
-	\subitem HD SSD 128GB;
-	\item Ambiente de desenvolvimento Webstorm;
-	\item Navegador de internet Google Chrome 63.0.3239.132.
-	\item Controle de versão Git (Software e dissertação);
-	\item \LaTeX para produção da dissertação;
-	\item Portal de periódicos CAPES;
+	\item Modelos de previsão espaço-temporais
 \end{itemize}
 
+No trabalho proposto, buscou-se, inicialmente extrair informações baseadas na previsão de agrupamentos dinâmicos
+em grafos. Assim sendo, e após obter os dados a partir de \cite{simda}, através de uma ferramenta que automatiza a extração dos dados, detectou-se a necessidade de um software para representação e tratamentos de grafos dinâmicos, que tem como característica a extensibilidade. Para isso, foi escolhido o Dynagraph.
+
+\iffalse
+...Os métodos estatísticos multivariados podem ser utilizados com propósitos descritivos, exploratórios ou analíticos. 
+
+Para a obtenção das informações espaço-temporais mapeáveis e características do indivíduo, segue-se três estratégias para resolução do problema: na primeira os dados são analisados como um só grupo (Agrupamento Estático); na segunda os dados são tratados por intervalos pré-definidos; na terceira mapeia-se as evoluções entre intervalos observados.
+Dessa forma, tal pesquisa visa indicar os possíveis grupos relacionado espacialmente e também no tempo.
+\fi
+
+Por fim, foi desenvolvido um modelo capaz de representar agrupamentos e previsão dinâmicos a partir do software Dynagraph e executar o modelo proposto, para avaliação e conclusão dos resultados obtidos em bases dinâmicas.
 
 \section{Organização do Texto}
 Esta dissertação está organizada em 5 capítulos. O capítulo 1 apresenta uma
@@ -148,7 +117,7 @@ introdução à necessidade da representação e manipulação do agrupamento es
 dinâmico, assim como a previsão da formação de novos grupos dinâmicos. Em seguida são apresentados os objetivos,
 as hipóteses, a metodologia utilizada e as contribuições. O capítulo 2 constitui a revisão
 bibliográfica sobre modelagem com grafos dinâmicos, métodos de agrupamento por densidade, redes dinâmicas,
-o DYNAGRAPH, um editor de características e um conjunto de trabalhos relacionados a esta área de conhecimento.
+o Dynagraph, um editor de características e um conjunto de trabalhos relacionados a esta área de conhecimento.
 O capítulo 3 apresenta o modelo de agrupamento e previsão em redes dinâmicas. O capítulo 4 destaca
 os resultados e comparação dos algoritmos apresentados. O capítulo 5 apresenta as considerações finais
 e propostas de trabalhos futuros.
